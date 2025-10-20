@@ -4,7 +4,7 @@ import JourneyBook from '../components/JourneyBook';
 import EducationCard from '../components/EducationCard';
 import SkillsSection from '../components/SkillsSection';
 import FloatingParticles from '../components/FloatingParticles';
-import "../styles/AboutPage.css";
+import "../styles/About.css";
 export default function AboutPage() {
   return (
     <>
