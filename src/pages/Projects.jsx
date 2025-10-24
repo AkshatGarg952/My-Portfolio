@@ -62,7 +62,7 @@ function Projects() {
         }}
       />
       <FloatingParticles />
-      <Navbar />
+      <Navbar activePage={'Projects'} />
 
       {/* Main Content */}
      {/* Main Content */}

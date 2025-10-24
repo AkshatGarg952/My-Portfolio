@@ -48,7 +48,7 @@ export default function Experience() {
       <div className="mystical-bg" />
       <FloatingParticles />
 
-      <Navbar />
+      <Navbar activePage={'Experience'} />
 
       <main className="min-h-screen pt-24 pb-8 relative z-10">
         <div className="max-w-7xl mx-auto px-8 md:px-4">
