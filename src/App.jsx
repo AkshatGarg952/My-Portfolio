@@ -4,11 +4,12 @@ import AboutPage from './pages/About.jsx';
 import Projects from './pages/Projects.jsx';
 import Experience from './pages/Experience.jsx';
 import ContactPage from './pages/Contact.jsx';
+import Home from './pages/Home.jsx';
 function App() {
     return (
     <Router>
       <Routes>
-        <Route path="/" element={<ContactPage />} />
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/experience" element={<Experience />} />
