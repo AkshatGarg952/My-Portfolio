@@ -1,50 +1,27 @@
 export const projects = [
   {
-    title: "AI Chat Application",
-    description: "A sophisticated AI-powered chat application with real-time messaging, natural language processing, and intelligent response generation.",
-    thumbnail: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tech: ["React", "Node.js", "OpenAI", "Socket.io"],
-    github: "#",
-    demo: "#"
+    title: "KodeKshetra",
+    description: "A real-time 1v1 DSA/CP battle platform with timed matches, AI-generated test cases, and sandboxed code execution. Features gamified leaderboards, streak-based rankings, and multi-language support (Java, Python, C++).",
+    thumbnail: "https://res.cloudinary.com/dnd6asdiw/image/upload/v1760255700/Screenshot_2025-10-12_130014_qg3et8.png",
+    tech: ["React", "Express", "Gemini AI", "FastAPI", "Langgraph", "Langchain"],
+    github: "https://github.com/AkshatGarg952/KodeKshetra-Client",
+    demo: "https://kode-kshetra-client.vercel.app/"
   },
   {
-    title: "E-commerce Platform",
-    description: "A full-featured e-commerce platform with payment integration, inventory management, and advanced analytics dashboard.",
-    thumbnail: "https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tech: ["Next.js", "MongoDB", "Stripe", "Tailwind"],
-    github: "#",
-    demo: "#"
+    title: "Chess With Benefits",
+    description: "A real-time chess app with JWT authentication, video chat, and AI-driven commentary using OpenAI. Includes Stockfish-powered move analysis and interactive insights for an engaging playing experience.",
+    thumbnail: "https://res.cloudinary.com/dnd6asdiw/image/upload/v1761992481/Screenshot_2025-11-01_155102_t2r2xm.png",
+    tech: ["React", "MongoDB", "Express", "WebRTC", "OpenAI"],
+    github: "https://github.com/AkshatGarg952/ChesswithBenefits-Client",
+    demo: "https://chesswith-benefits-client.vercel.app/"
   },
   {
-    title: "Task Management App",
-    description: "A collaborative task management application with real-time updates, team collaboration features, and advanced project tracking.",
-    thumbnail: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tech: ["Vue.js", "Express", "PostgreSQL", "WebSocket"],
-    github: "#",
-    demo: "#"
+    title: "PlayPlexus",
+    description: "A real-time sports and gaming matchmaking platform with voice-enabled Gemini AI chatbot and instant chat. Enables quick player/team connections through live filtering and Socket.IO communication.",
+    thumbnail: "https://res.cloudinary.com/dnd6asdiw/image/upload/v1761992563/Screenshot_2025-11-01_155224_u5cuaa.png",
+    tech: ["React", "Express", "MongoDB", "Gemini API"],
+    github: "https://github.com/AkshatGarg952/PlayPlexusFrontend",
+    demo: "https://play-plexus-frontend.vercel.app/"
   },
-  {
-    title: "Weather Analytics Dashboard",
-    description: "An interactive weather analytics dashboard with real-time data visualization, predictive modeling, and comprehensive weather insights.",
-    thumbnail: "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tech: ["React", "D3.js", "Python", "FastAPI"],
-    github: "#",
-    demo: "#"
-  },
-  {
-    title: "Social Media Platform",
-    description: "A modern social media platform with real-time messaging, content sharing, and advanced privacy controls for enhanced user experience.",
-    thumbnail: "https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tech: ["React Native", "GraphQL", "Redis", "AWS"],
-    github: "#",
-    demo: "#"
-  },
-  {
-    title: "ML Prediction Model",
-    description: "An advanced machine learning model for predictive analytics with comprehensive data preprocessing and model optimization techniques.",
-    thumbnail: "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800",
-    tech: ["Python", "TensorFlow", "Pandas", "Jupyter"],
-    github: "#",
-    demo: "#"
-  },
+  
 ];

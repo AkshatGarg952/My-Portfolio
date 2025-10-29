@@ -9,37 +9,15 @@ const experiences = [
     role: "Full Stack Developer Intern",
     duration: "Jun 2024 - Present",
     achievements: [
-      "Developed and maintained full-stack web applications using React, Node.js, and MongoDB",
-      "Implemented AI-powered features and machine learning models for enhanced user experience",
-      "Optimized application performance, reducing load times by 40%",
-      "Collaborated with cross-functional teams to deliver high-quality software solutions"
+      "Collaborated with a team of 3 to build Clinify AI, a React.js, Tailwind CSS, and FastAPI-powered healthcare platform for medical report uploads and AI chat",
+      "Designed a modular chatbot interface with 5 reusable React components, enabling PDF chat summaries that cut report creation time by 30%, enhancing clinician productivity",
+      "Developed a Retrieval-Augmented Generation (RAG) pipeline with Langchain and ChromaDB for efficient PDF vector embeddings, improving chatbot response relevance by 25%",
+      "Implemented context-aware chat sessions and automated PDF summaries, collectively reducing report generation time by 30%, streamlining clinician workflows",
+      "Built a secure session-based chat system with JWT authentication, enabling multiple personalized conversations and enhancing data privacy compliance"
     ],
-    tech: ["React", "Node.js", "MongoDB", "Python", "TensorFlow", "AWS", "Docker"]
+    tech: ["React", "FastAPI", "MongoDB", "Python", "Docker", "AWS", "Langgraph", "ChromaDB", "Langchain"]
   },
-  {
-    company: "IIIT Bhopal",
-    role: "Research Assistant",
-    duration: "Jan 2024 - May 2024",
-    achievements: [
-      "Conducted research on machine learning algorithms and their applications",
-      "Analyzed large datasets and implemented data visualization solutions",
-      "Co-authored research papers on AI and published findings in academic journals",
-      "Assisted in teaching undergraduate courses and mentoring students"
-    ],
-    tech: ["Python", "Jupyter", "Pandas", "Scikit-learn", "Matplotlib", "TensorFlow"]
-  },
-  {
-    company: "Freelance",
-    role: "Freelance Developer",
-    duration: "2023 - Present",
-    achievements: [
-      "Delivered 15+ successful web development projects for diverse clients",
-      "Created responsive and user-friendly interfaces with modern design principles",
-      "Consistently met project deadlines while maintaining high code quality",
-      "Built long-term relationships with clients through excellent communication"
-    ],
-    tech: ["React", "Vue.js", "WordPress", "PHP", "MySQL", "Figma"]
-  }
+
 ];
 
 export default function Experience() {
