@@ -8,8 +8,8 @@ export default function EducationCard() {
           Indian Institute of Information Technology, Bhopal
         </h3>
         <p className="text-primary font-semibold">Bachelor of Technology</p>
-        <p className="text-gray-300">Electronics and Communication Engineering</p>
-        <p className="text-muted mt-auto pt-6">3rd Year Student</p>
+        <p className="text-white">Electronics and Communication Engineering</p>
+        <p className="text-white mt-auto pt-6">3rd Year Student</p>
       </div>
     </div>
   );

@@ -19,8 +19,26 @@ const skillCategories = [
       { icon: "⚡", name: "FastAPI", level: "advanced" },
       { icon: "🟩", name: "Node.js", level: "intermediate" },
       { icon: "🚀", name: "Express.js", level: "advanced" },
-      { icon: "🍃", name: "MongoDB", level: "intermediate" },
       { icon: "☕", name: "Java", level: "intermediate" },
+      { icon: "☕", name: "Javascript", level: "intermediate" },
+    ]
+  },
+  {
+    title: "AI",
+    skills: [
+      { icon: "⚛️", name: "Langchain", level: "advanced" },
+      { icon: "🟨", name: "Langgraph", level: "advanced" },
+      { icon: "🎨", name: "Prompt Engineering", level: "intermediate" },
+      { icon: "🌐", name: "RAG", level: "advanced" },
+    ]
+  },
+  {
+    title: "Tools",
+    skills: [
+      { icon: "🍃", name: "MongoDB", level: "intermediate" },
+      { icon: "🍃", name: "Redis", level: "intermediate" },
+      { icon: "🍃", name: "Git", level: "intermediate" },
+      { icon: "🍃", name: "MongoDB", level: "intermediate" },
     ]
   },
 ];

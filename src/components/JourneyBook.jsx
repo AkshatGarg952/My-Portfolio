@@ -60,7 +60,7 @@ export default function JourneyBook() {
             </span>
             <p
               ref={el => (paragraphsRef.current[i] = el)}
-              className="text-lg leading-relaxed text-gray-300 text-justify min-h-[1.5em]"
+              className="text-lg leading-relaxed text-white text-justify min-h-[1.5em]"
             ></p>
           </div>
         ))}
