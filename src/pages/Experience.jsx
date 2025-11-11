@@ -6,7 +6,7 @@ import '../styles/Experience.css';
 const experiences = [
   {
     company: "DWARF AI",
-    role: "Full Stack Developer Intern",
+    role: "Full Stack AI Intern",
     duration: "Jun 2025 - Jul 2025",
     achievements: [
       "Collaborated with a team of 3 to build Clinify AI, a React.js, Tailwind CSS, and FastAPI-powered healthcare platform for medical report uploads and AI chat",
