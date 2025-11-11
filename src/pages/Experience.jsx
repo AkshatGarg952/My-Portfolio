@@ -7,7 +7,7 @@ const experiences = [
   {
     company: "DWARF AI",
     role: "Full Stack Developer Intern",
-    duration: "Jun 2024 - Present",
+    duration: "Jun 2025 - Jul 2025",
     achievements: [
       "Collaborated with a team of 3 to build Clinify AI, a React.js, Tailwind CSS, and FastAPI-powered healthcare platform for medical report uploads and AI chat",
       "Designed a modular chatbot interface with 5 reusable React components, enabling PDF chat summaries that cut report creation time by 30%, enhancing clinician productivity",
