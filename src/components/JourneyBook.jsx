@@ -4,7 +4,6 @@ const achievements = [
   "Achieved Highest Rating of 1661 (3 Star) on CodeChef.",
   "Attained a max rating of 1645 on LeetCode.",
   "Global Rank 317 in Codechef Starters 154.",
-  "Global Rank 317 in Codechef Starters 154."
 ];
 
 export default function JourneyBook() {

@@ -2,12 +2,11 @@
 import Navbar from '../components/Navbar';
 import ExperienceCard from '../components/ExperienceCard.jsx';
 import FloatingParticles from '../components/FloatingParticles';
-import '../styles/Experience.css';
 const experiences = [
   {
-    company: "DWARF AI",
-    role: "Full Stack AI Intern",
-    duration: "Jun 2025 - Jul 2025",
+    company: "Resonate Fitness",
+    role: "SWE Intern",
+    duration: "Dec 2025 - Present",
     achievements: [
       "Collaborated with a team of 3 to build Clinify AI, a React.js, Tailwind CSS, and FastAPI-powered healthcare platform for medical report uploads and AI chat",
       "Designed a modular chatbot interface with 5 reusable React components, enabling PDF chat summaries that cut report creation time by 30%, enhancing clinician productivity",
@@ -17,6 +16,18 @@ const experiences = [
     ],
     tech: ["React", "FastAPI", "MongoDB", "Python", "Docker", "AWS", "Langgraph", "ChromaDB", "Langchain"]
   },
+  {
+    company: "Dwarf AI",
+    role: "Full Stack AI Intern",
+    duration: "Jun 2025 - Jul 2025",
+    achievements: [
+      "Developed and deployed core backend modules for Clinify AI, enabling secure medical report uploads and AI-driven patient interactions",
+      "Engineered and optimized a LangChain–ChromaDB RAG pipeline, improving answer relevance by 25% across 40+ evaluated queries",
+      "Developed a session-based, multi-user chat system using FastAPI and JWT authentication, supporting concurrent authenticated conversations with persistent context",
+      "Built and validated PDF report summarization and AI-guided follow-up workflows with 20+ internal users, reducing report analysis time by 30%",
+    ],
+    tech: ["React", "FastAPI", "MongoDB", "Python", "Docker", "AWS", "Langgraph", "ChromaDB", "Langchain"]
+  }
 
 ];
 

@@ -1,3 +1,2 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import common styles - includes Tailwind base, components, and utilities */
+@import './styles/common.css';

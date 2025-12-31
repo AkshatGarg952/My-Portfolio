@@ -5,12 +5,14 @@ import Projects from './pages/Projects.jsx';
 import Experience from './pages/Experience.jsx';
 import ContactPage from './pages/Contact.jsx';
 import Home from './pages/Home.jsx';
+import Skills from './pages/Skills.jsx';
 function App() {
     return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/skills" element={<Skills />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/experience" element={<Experience />} />
         <Route path="/contact" element={<ContactPage />} />
