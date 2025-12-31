@@ -27,7 +27,7 @@ const PortalOverlay = ({ onTimeStoneClick }) => {
         <circle cx="135.818" cy="343.674" r="25" className="portal-circle"/>
         <line x1="135.818" y1="343.674" x2="80" y2="385" className="label-line"/>
         <polygon points="80,385 85,383 83,388" className="arrow-head"/>
-        <text x="50" y="400" className="portal-label-svg">Resume</text>
+        <text x="50" y="400" className="portal-label-svg">Skills</text>
       </a>
       
       {/* RIGHT HAND PORTALS */}
