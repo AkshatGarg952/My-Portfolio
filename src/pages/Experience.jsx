@@ -8,13 +8,11 @@ const experiences = [
     role: "SWE Intern",
     duration: "Dec 2025 - Present",
     achievements: [
-      "Collaborated with a team of 3 to build Clinify AI, a React.js, Tailwind CSS, and FastAPI-powered healthcare platform for medical report uploads and AI chat",
-      "Designed a modular chatbot interface with 5 reusable React components, enabling PDF chat summaries that cut report creation time by 30%, enhancing clinician productivity",
-      "Developed a Retrieval-Augmented Generation (RAG) pipeline with Langchain and ChromaDB for efficient PDF vector embeddings, improving chatbot response relevance by 25%",
-      "Implemented context-aware chat sessions and automated PDF summaries, collectively reducing report generation time by 30%, streamlining clinician workflows",
-      "Built a secure session-based chat system with JWT authentication, enabling multiple personalized conversations and enhancing data privacy compliance"
+      "Contributing to backend productionization of Resonate Fitness by supporting infrastructure and deployment workflows for secure ingestion and real-time health analytics",
+      "Engineered diagnostics pipelines to parse and normalize 20+ biomarkers from PDF reports, achieving 90% extraction accuracy, enabling longitudinal health trend analysis",
+      "Implemented Google Fit ingestion services with scheduled syncs, idempotent processing, and retry logic to reliably aggregate steps, sleep, and workout data"
     ],
-    tech: ["React", "FastAPI", "MongoDB", "Python", "Docker", "AWS", "Langgraph", "ChromaDB", "Langchain"]
+    tech: ["React", "Express", "MongoDB", "Javascript", "FastAPI", "Python", "Open AI"]
   },
   {
     company: "Dwarf AI",
