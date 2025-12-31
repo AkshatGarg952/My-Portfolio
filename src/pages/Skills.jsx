@@ -33,22 +33,7 @@ export default function SkillsPage() {
           <SkillsSection />
 
           {/* Call to Action */}
-          <div className="mt-20 text-center">
-            <div className="inline-block bg-gradient-to-r from-primary/10 via-mystical-purple/10 to-primary/10 rounded-2xl p-8 border border-mystical-purple/30 backdrop-blur-sm">
-              <h3 className="text-2xl font-cinzel text-accent mb-4">
-                Ready to Build Something Amazing?
-              </h3>
-              <p className="text-text-gray mb-6 max-w-md mx-auto">
-                Let's collaborate and bring your vision to life with these powerful tools
-              </p>
-              <Link
-                to="/contact"
-                className="inline-block px-8 py-3 bg-gradient-to-r from-primary to-secondary rounded-full text-white font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 hover:scale-105"
-              >
-                Get In Touch
-              </Link>
-            </div>
-          </div>
+         
         </div>
       </main>
     </>

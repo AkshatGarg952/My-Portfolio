@@ -30,22 +30,7 @@ export default function AboutPage() {
           </div>
 
           {/* Skills Teaser Section */}
-          <div className="mt-16 text-center">
-            <div className="inline-block bg-gradient-to-r from-mystical-purple/10 via-primary/10 to-mystical-purple/10 rounded-2xl p-8 border border-mystical-purple/30 backdrop-blur-sm max-w-2xl">
-              <h3 className="text-3xl font-cinzel text-accent mb-4">
-                My Technical Skills
-              </h3>
-              <p className="text-text-gray mb-6">
-                Explore my comprehensive skill set across programming languages, frameworks, and cutting-edge technologies
-              </p>
-              <Link
-                to="/skills"
-                className="inline-block px-8 py-3 bg-gradient-to-r from-primary to-secondary rounded-full text-white font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 hover:scale-105"
-              >
-                View All Skills →
-              </Link>
-            </div>
-          </div>
+         
         </div>
       </main>
     </>
