@@ -4,6 +4,7 @@ import Form from '../components/Form';
 import ContactInfo from '../components/ContactInfo';
 import SuccessModal from '../components/SuccessModal';
 import Navbar from '../components/Navbar';
+import emailjs from 'emailjs-com';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -59,17 +60,35 @@ export default function ContactPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setIsSubmitting(false);
-      setShowSuccess(true);
-      createConfetti();
-    }, 2000);
-  };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
+
+  setIsSubmitting(true);
+
+  try {
+    await emailjs.send(
+      'service_aq08eu7',
+      'template_gdja99p',
+      {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      },
+      'hXP0shevj76dhxcVD'
+    );
+
+    setFormData({ name: '', email: '', subject: '', message: '' });
+    setShowSuccess(true);
+    createConfetti();
+  } catch (err) {
+    alert('Failed to send message');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const createConfetti = () => {
     const colors = ['#ff6b35', '#f7931e', '#ffd700', '#8b5cf6', '#3b82f6'];
