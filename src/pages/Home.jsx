@@ -625,11 +625,11 @@ function Home() {
         <div className="left-section">
           <div className="name">Akshat Garg</div>
           <div className="title">Full Stack Developer</div>
-          <div className="description">
-            As A Full-Stack Developer,<br />
-            I Create Innovative Digital Solutions<br />
-            That Help Businesses Around The World Grow.
-          </div>
+         <div className="description">
+  A Full-Stack Developer building clean, reliable web applications
+  from end to end.
+</div>
+
         </div>
 
         <div className="right-section">

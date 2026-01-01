@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-const achievements = [
-  "Achieved Highest Rating of 1661 (3 Star) on CodeChef.",
-  "Attained a max rating of 1645 on LeetCode.",
-  "Global Rank 317 in Codechef Starters 154.",
+const introductionParagraphs = [
+  "Hello! I'm a passionate third-year student at the Indian Institute of Information Technology, Bhopal, pursuing Bachelor of Technology in Electronics and Communication Engineering.",
+  "My journey in technology began with a fascination for problem-solving and building innovative solutions. I specialize in full-stack development, competitive programming, and creating intuitive user experiences.",
+  "Beyond coding, I enjoy exploring new technologies, participating in hackathons, and contributing to open-source projects. I believe in continuous learning and staying updated with the latest trends in the tech industry."
 ];
 
 export default function JourneyBook() {
@@ -15,7 +15,7 @@ export default function JourneyBook() {
 
     const typingTimer = setTimeout(() => {
       paragraphsRef.current.forEach((p, i) => {
-        setTimeout(() => typeText(p, achievements[i], 30), i * 2500);
+        setTimeout(() => typeText(p, introductionParagraphs[i], 20), i * 3000);
       });
     }, 1500);
 
@@ -49,19 +49,15 @@ export default function JourneyBook() {
         }`}
       >
         <h2 className="text-2xl sm:text-3xl font-cinzel text-accent mb-6">
-          My Journey & Achievements
+          About Me
         </h2>
 
-        {achievements.map((_, i) => (
-          <div key={i} className="flex items-center gap-2 mb-3">
-            <span className="text-accent text-2xl leading-none relative top-[1px] transition-transform duration-700 group-hover:scale-125 group-hover:text-primary">
-              ★
-            </span>
-            <p
-              ref={el => (paragraphsRef.current[i] = el)}
-              className="text-lg leading-relaxed text-white text-justify min-h-[1.5em]"
-            ></p>
-          </div>
+        {introductionParagraphs.map((_, i) => (
+          <p
+            key={i}
+            ref={el => (paragraphsRef.current[i] = el)}
+            className="text-lg leading-relaxed text-white text-justify mb-4 min-h-[3em]"
+          ></p>
         ))}
       </div>
     </div>
