@@ -47,12 +47,12 @@ const PortalOverlay = ({ onTimeStoneClick }) => {
         <text x="420" y="293" className="portal-label-svg" textAnchor="start">Contact</text>
       </Link>
       
-      {/* Github */}
-      <a href="https://github.com/AkshatGarg952" target="_blank" rel="noopener noreferrer" className="portal-link">
+      {/* Resume */}
+      <a href="https://drive.google.com/file/d/1MiHVt-a2NbD7Nu_tlZn7OrBqHPgapxVO/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="portal-link">
         <circle cx="323.824" cy="348.923" r="25" className="portal-circle"/>
         <line x1="323.824" y1="348.923" x2="379.824" y2="390.597" className="label-line"/>
         <polygon points="379.824,390.597 374.824,388.097 376.824,393.097" className="arrow-head"/>
-        <text x="415" y="405" className="portal-label-svg" textAnchor="start">Github</text>
+        <text x="415" y="405" className="portal-label-svg" textAnchor="start">Resume</text>
       </a>
       
       {/* TIME STONE */}
