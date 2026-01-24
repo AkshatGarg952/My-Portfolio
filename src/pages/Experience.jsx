@@ -9,8 +9,9 @@ const experiences = [
     duration: "Dec 2025 - Present",
     achievements: [
       "Contributing to backend productionization of Resonate Fitness by supporting infrastructure and deployment workflows for secure ingestion and real-time health analytics",
-      "Engineered diagnostics pipelines to parse and normalize 20+ biomarkers from PDF reports, achieving 90% extraction accuracy, enabling longitudinal health trend analysis",
-      "Implemented Google Fit ingestion services with scheduled syncs, idempotent processing, and retry logic to reliably aggregate steps, sleep, and workout data"
+      "Engineered diagnostics pipelines using LLM-assisted extraction from PDFs to parse and normalize 100+ biomarkers, achieving 90% extraction accuracy for longitudinal health trend analysis",
+      "Implemented Google Fit ingestion services with scheduled syncs, idempotent processing, and retry logic to reliably aggregate steps, sleep, and workout data",
+      "Built backend services for personalized nutrition and fitness planning, integrating LLM-driven plan generation with photo-based meal recognition and barcode/text nutrition lookup"
     ],
     tech: ["React", "Express", "MongoDB", "Javascript", "FastAPI", "Python", "Open AI"]
   },
@@ -22,7 +23,7 @@ const experiences = [
       "Developed and deployed core backend modules for Clinify AI, enabling secure medical report uploads and AI-driven patient interactions",
       "Engineered and optimized a LangChain–ChromaDB RAG pipeline, improving answer relevance by 25% across 40+ evaluated queries",
       "Developed a session-based, multi-user chat system using FastAPI and JWT authentication, supporting concurrent authenticated conversations with persistent context",
-      "Built and validated PDF report summarization and AI-guided follow-up workflows with 20+ internal users, reducing report analysis time by 30%",
+      "Built and validated LLM-based conversational session summarization and follow-up workflows with 20+ internal users, reducing manual review time by 30%",
     ],
     tech: ["React", "FastAPI", "MongoDB", "Python", "Docker", "AWS", "Langgraph", "ChromaDB", "Langchain"]
   }
