@@ -67,7 +67,7 @@ export default function ExperienceCard({ company, role, duration, achievements, 
 
 
       {/* Header: Company + Duration in one line */}
-      <div className="card-header flex justify-between items-center mb-4 gap-6">
+      <div className="card-header flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4 md:gap-6">
         <div>
           <h2
             className="text-2xl font-['Cinzel'] font-semibold text-white mb-1"

@@ -5,14 +5,10 @@ import PortalOverlay from '../components/PortalOverlay.jsx';
 import MysticalEffects from '../components/MysticalEffects.jsx';
 
 function Home() {
-  const [isTimeRewind, setIsTimeRewind] = useState(false);
   const imageContainerRef = useRef(null);
 
   const handleTimeStoneClick = () => {
-    setIsTimeRewind(true);
-    setTimeout(() => {
-      setIsTimeRewind(false);
-    }, 3000);
+    // No-op for now
   };
 
   useEffect(() => {
@@ -37,7 +33,7 @@ function Home() {
   }, []);
 
   return (
-    <div className={isTimeRewind ? 'time-rewind' : ''}>
+    <div>
       <style>{`
         * {
           margin: 0;
@@ -59,19 +55,7 @@ function Home() {
           transition: filter 2s ease;
         }
 
-        body.time-rewind {
-          filter: hue-rotate(120deg) brightness(0.8) saturate(1.5);
-          animation: timeDistortion 3s ease-in-out;
-        }
 
-        @keyframes timeDistortion {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(0.98); }
-        }
-
-        .time-rewind * {
-          animation-play-state: paused !important;
-        }
 
         .mirror-dimension {
           position: fixed;
@@ -484,23 +468,10 @@ function Home() {
 
         .time-stone-circle {
           fill: transparent;
-          stroke: rgba(138, 43, 226, 0.6);
-          stroke-width: 2;
+          stroke: transparent;
+          stroke-width: 0;
           cursor: pointer;
           pointer-events: all;
-          transition: all 0.3s ease;
-          animation: stoneGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes stoneGlow {
-          0%, 100% { stroke: rgba(138, 43, 226, 0.6); filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.4)); }
-          50% { stroke: rgba(138, 43, 226, 1); filter: drop-shadow(0 0 25px rgba(138, 43, 226, 0.8)); }
-        }
-
-        .time-stone-circle:hover {
-          fill: rgba(138, 43, 226, 0.2);
-          stroke: rgba(138, 43, 226, 1);
-          filter: drop-shadow(0 0 35px rgba(138, 43, 226, 1)) !important;
         }
 
         .mystical-runes {
@@ -682,6 +653,7 @@ function Home() {
 
       <BackgroundEffects />
       <CursorCanvas />
+
 
       <div className="container">
         <div className="left-section">
