@@ -48,7 +48,7 @@ const PortalOverlay = ({ onTimeStoneClick }) => {
       </Link>
 
       {/* Resume */}
-      <a href="https://drive.google.com/file/d/1kgWq0fHxA4ciuzdj_SBb1N95FXo04JoI/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="portal-link">
+      <a href="https://drive.google.com/file/d/1wnOUMHFSrTnkm6NMBIUpBDGuSLyLpmVk/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="portal-link">
         <circle cx="323.824" cy="348.923" r="25" className="portal-circle" />
         <line x1="323.824" y1="348.923" x2="379.824" y2="390.597" className="label-line" />
         <polygon points="379.824,390.597 374.824,388.097 376.824,393.097" className="arrow-head" />
