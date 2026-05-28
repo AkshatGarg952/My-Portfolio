@@ -430,11 +430,12 @@ function Home() {
           font-size: 14px;
           font-weight: bold;
           text-anchor: middle;
-          pointer-events: none;
+          pointer-events: auto;
           opacity: 1;
           letter-spacing: 1.2px;
           text-transform: uppercase;
           filter: drop-shadow(0 0 3px rgba(255, 140, 0, 0.6));
+          cursor: pointer;
         }
 
         .portal-link:hover .portal-label-svg {
