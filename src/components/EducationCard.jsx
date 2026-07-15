@@ -1,9 +1,9 @@
 export default function EducationCard() {
   const achievements = [
-    "Orchestrated an IPL Auction quiz platform for E-Cell, handling 500+ registrations and shortlisting 12 finalist",
-    "Achieved Highest Rating of 1661 (3 Star) on CodeChef",
-    "Attained a max rating of 1645 on LeetCode",
-    "Global Rank 317 in Codechef Starters 154",
+    "3★ CodeChef · Peak Rating 1661",
+    "LeetCode Rating: 1645",
+    "Global Rank 317 · CodeChef Starters 154",
+    "Led an IPL Auction platform used to manage 500+ participants",
   ];
 
   return (
