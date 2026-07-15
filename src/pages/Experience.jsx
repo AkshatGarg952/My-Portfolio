@@ -3,29 +3,42 @@ import Navbar from '../components/Navbar';
 import ExperienceCard from '../components/ExperienceCard.jsx';
 import FloatingParticles from '../components/FloatingParticles';
 const experiences = [
+  {
+    company: "Zecruit AI",
+    role: "Software Engineer Intern",
+    duration: "Jun 2026 - Present",
+    achievements: [
+  "Fixed an end-to-end AI interview generation bug by enabling post-call extraction variables across React, FastAPI, LLM prompts, and response normalization workflows",
+  "Extended AI-driven interview configuration by designing prompt schemas and structured JSON outputs to generate dynamic post-call extraction parameters"
+],
+    tech: ["FastAPI", "Postgres", "Typescript", "Python", "Supabase"]
+  },
    {
     company: "Zyvka",
     role: "Backend Developer Intern",
-    duration: "Feb 2026 - Present",
+    duration: "Feb 2026 - Jun 2026",
     achievements: [
-      "Migrated four in-memory job queues to a BullMQ + Redis distributed architecture, enabling persistent job storage and fault-tolerant processing for AI call and evaluation pipelines",
-      "Implemented queue workers with controlled concurrency limits (8 USA calls, 10 India calls, 5 AI evaluations) to manage asynchronous workloads reliably",
-      "Added retry and backoff strategies to handle failures across external services used in the pipeline",
-      "Integrated queue workers with AI voice and evaluation workflows powered by OpenAI, Exotel, and Vapi, ensuring stable processing of AI-driven calls"
-    ],
+  "Built and shipped scalable backend APIs using Node.js, Express.js, MongoDB, and Redis to power production queue workflows",
+  "Replaced 6 hardcoded queue routes with a dynamic routing architecture, making the system easier to maintain and extend",
+  "Optimized queue retrieval for 10K+ jobs using buffered fetching, filtering, and pagination, improving response efficiency by 70%",
+  "Developed scheduling and rerun workflows with configurable validation, enabling reliable execution across multiple pipelines",
+  "Designed intelligent priority management with collision avoidance and safe reordering to ensure stable queue execution",
+  "Collaborated across engineering teams to build, test, and deploy production-ready backend features"
+],
     tech: ["Express", "MongoDB", "Typescript", "BullMQ", "Redis", "OpenAI", "Exotel", "Vapi"]
   },
   {
     company: "Resonate Fitness",
     role: "SWE Intern",
-    duration: "Dec 2025 - Present",
+    duration: "Dec 2025 - Feb 2026",
     achievements: [
-      "Led backend productionization of health analytics pipelines by building secure ingestion services, validation layers, and data pipelines",
-      "Reduced ingestion failures from 35% to <5% by implementing robust validation and processing mechanisms for incoming health data",
-      "Architected a production-grade memory layer with metadata validation, PII sanitization, retry/backoff strategies, and legacy fallback retrieval",
-      "Improved retrieval success rate from 82% to 97% through reliable metadata handling and fallback retrieval mechanisms",
-      "Engineered diagnostics and food ingestion pipelines with AI parsing and biomarker normalization across 75 markers, reducing processing time by 45% and cleanup effort by 60%"
-    ],
+  "Built secure backend microservices using FastAPI for AI-powered healthcare and nutrition workflows",
+  "Designed resilient data ingestion pipelines with validation, retry mechanisms, and metadata verification to improve reliability",
+  "Engineered AI-powered diagnostics and biomarker processing workflows, significantly reducing manual processing effort",
+  "Architected an intelligent memory and retrieval layer with fallback mechanisms, improving retrieval success from 82% to 97%",
+  "Developed responsive frontend interfaces using React.js and Tailwind CSS, integrating seamlessly with backend APIs",
+  "Worked across the full stack, contributing to feature development, debugging, deployment, and production improvements"
+],
     tech: ["Mem0", "Express", "MongoDB", "Javascript", "FastAPI", "Python", "Open AI", "React.js"]
   },
   {
@@ -33,12 +46,13 @@ const experiences = [
     role: "Full Stack AI Intern",
     duration: "Jun 2025 - Jul 2025",
     achievements: [
-      "Developed and deployed backend services for Clinify AI, enabling secure medical report uploads and multi-user AI sessions using FastAPI, JWT authentication, and REST APIs",
-      "Engineered and optimized a LangChain–ChromaDB RAG pipeline, improving answer relevance by 25% across 40+ evaluated queries",
-      "Implemented LLM-based conversational session summarization workflows to generate structured insights from AI interactions",
-      "Built follow-up conversation workflows to assist users after report analysis sessions",
-      "Validated the system with 20+ internal users, reducing manual review time by 30%"
-    ],
+  "Built backend services for Clinify AI using FastAPI, enabling secure medical report uploads and multi-user AI workflows",
+  "Engineered LangChain and ChromaDB based RAG pipelines, improving LLM response relevance by 25%",
+  "Developed AI-powered report summarization and follow-up workflows, reducing manual review effort by 30%",
+  "Built responsive frontend interfaces using React.js and Tailwind CSS for AI-powered healthcare applications",
+  "Integrated REST APIs, authentication, and AI services to deliver seamless end-to-end user experiences",
+  "Contributed across the product lifecycle, from implementation and testing to deployment and iterative improvements"
+],
 
     tech: ["React", "FastAPI", "MongoDB", "Python", "Docker", "AWS", "Langgraph", "ChromaDB", "Langchain"]
   }

@@ -34,6 +34,21 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             className="w-full h-64 md:h-80 object-cover rounded-xl mb-6"
           />
           <p className="text-gray leading-relaxed mb-6">{project.description}</p>
+          
+          {project.achievements && project.achievements.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-xl font-cinzel text-accent mb-4">Technical Highlights</h3>
+              <ul className="space-y-3">
+                {project.achievements.map((achievement, index) => (
+                  <li key={index} className="flex gap-3 text-gray leading-relaxed">
+                    <span className="text-primary flex-shrink-0 mt-1">✓</span>
+                    <span>{achievement}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
           <div className="flex flex-wrap gap-2 mb-6">
             {project.tech.map((tech) => (
               <span
@@ -47,12 +62,16 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
           <div className="flex gap-3">
             <a
               href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 bg-[rgba(139,92,246,0.2)] border-2 border-[rgba(139,92,246,0.4)] rounded-lg text-purple font-semibold hover:bg-[rgba(139,92,246,0.3)] hover:border-purple"
             >
               <span>Folder</span> GitHub
             </a>
             <a
               href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 bg-[rgba(255,107,53,0.2)] border-2 border-[rgba(255,107,53,0.4)] rounded-lg text-primary font-semibold hover:bg-[rgba(255,107,53,0.3)] hover:border-primary"
             >
               <span>Rocket</span> Live Demo

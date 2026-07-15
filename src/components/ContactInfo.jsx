@@ -89,6 +89,7 @@ const socials = [
               key={s.platform}
               href={s.url}
               target="_blank"
+              rel="noopener noreferrer"
               className="flex flex-col items-center justify-center w-60 h-30 gap-3 p-4 rounded-2xl border-2 transition-all hover:translate-y-[-6px] hover:scale-105 relative overflow-hidden"
               style={{
                 background: s.gradient
