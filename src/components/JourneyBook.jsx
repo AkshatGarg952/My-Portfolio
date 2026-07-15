@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 const introductionParagraphs = [
-  "Hello! I'm a passionate third-year student at the Indian Institute of Information Technology, Bhopal, pursuing Bachelor of Technology in Electronics and Communication Engineering.",
-  "My journey in technology began with a fascination for problem-solving and building innovative solutions. I specialize in full-stack development, competitive programming, and creating intuitive user experiences.",
-  "Beyond coding, I enjoy exploring new technologies, participating in hackathons, and contributing to open-source projects. I believe in continuous learning and staying updated with the latest trends in the tech industry."
+  "I'm Akshat Garg, a Backend & AI Engineer who enjoys building software that solves real problems, not just projects that look good on a resume",
+  "Over the past year, I've worked across startups where I've shipped production APIs, AI powered workflows, scalable backend services, and distributed systems used by real users. I enjoy taking complex ideas, breaking them down, and turning them into reliable, maintainable products",
+  "My interests lie at the intersection of backend engineering, distributed systems, and applied AI. Whether it's optimizing systems handling thousands of requests, designing microservices, or integrating LLMs into practical applications, I'm always drawn toward building software that's fast, scalable, and genuinely useful",
+  "Outside of work, you'll usually find me solving DSA problems, experimenting with new technologies, or building side projects simply because an idea sounded interesting enough to explore"
 ];
 
 export default function JourneyBook() {
