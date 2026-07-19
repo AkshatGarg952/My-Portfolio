@@ -3,16 +3,7 @@ import Navbar from '../components/Navbar';
 import ExperienceCard from '../components/ExperienceCard.jsx';
 import FloatingParticles from '../components/FloatingParticles';
 const experiences = [
-  {
-    company: "Zecruit AI",
-    role: "Software Engineer Intern",
-    duration: "Jun 2026 - Present",
-    achievements: [
-  "Fixed an end-to-end AI interview generation bug by enabling post-call extraction variables across React, FastAPI, LLM prompts, and response normalization workflows",
-  "Extended AI-driven interview configuration by designing prompt schemas and structured JSON outputs to generate dynamic post-call extraction parameters"
-],
-    tech: ["FastAPI", "Postgres", "Typescript", "Python", "Supabase"]
-  },
+ 
    {
     company: "Zyvka",
     role: "Backend Developer Intern",
