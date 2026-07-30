@@ -1,42 +1,36 @@
-// src/components/SuccessModal.jsx
-import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function SuccessModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 bg-black/85 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      <div
-        className="bg-black/90 border-2 border-primary rounded-3xl p-12 text-center max-w-md mx-4
-                   shadow-[0_20px_60px_rgba(255,107,53,0.4)]
-                   scale-90 opacity-0 transition-all"
-        style={{ animation: 'successPulse 0.4s ease-out forwards' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="text-6xl mb-6 animate-success-pulse">Success</div>
-
-        <h2 className="text-2xl font-cinzel text-accent mb-4
-                       [text-shadow:0_0_15px_rgba(255,215,0,0.4)]">
-          Message Sent Successfully!
-        </h2>
-
-        <p className="text-text-gray mb-8 leading-relaxed">
-          Your mystical message has been delivered. I'll respond within 24 hours.
-        </p>
-
-        <button
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[300] p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           onClick={onClose}
-          className="px-8 py-4 bg-gradient-to-br from-primary to-secondary rounded-xl
-                     text-white font-semibold uppercase tracking-wide transition-all
-                     hover:translate-y-[-3px]
-                     hover:shadow-[0_8px_25px_rgba(255,107,53,0.5)]"
         >
-          Close
-        </button>
-      </div>
-    </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="glass rounded-3xl p-10 text-center max-w-md"
+          >
+            <CheckCircle2 size={48} className="text-gold mx-auto mb-6" />
+            <h2 className="font-display text-2xl text-ink mb-3">Message sent</h2>
+            <p className="text-muted mb-8 leading-relaxed">
+              Thanks for reaching out — I&rsquo;ll get back to you within 24 hours.
+            </p>
+            <button onClick={onClose} className="btn-primary">
+              Close
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

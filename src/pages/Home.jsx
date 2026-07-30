@@ -1,700 +1,192 @@
-import React, { useEffect, useRef, useState } from 'react';
-import BackgroundEffects from '../components/BackgroundEffects.jsx';
-import CursorCanvas from '../components/CursorCanvas.jsx';
-import PortalOverlay from '../components/PortalOverlay.jsx';
-import MysticalEffects from '../components/MysticalEffects.jsx';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Github, Linkedin, ArrowRight, ArrowDown } from 'lucide-react';
+import HeroVisual from '../components/HeroVisual.jsx';
+import StatusPill from '../components/StatusPill.jsx';
+import TechMarquee from '../components/TechMarquee.jsx';
+import MagneticButton from '../components/MagneticButton.jsx';
+import { projects } from '../data/projects.js';
 
-function Home() {
-  const imageContainerRef = useRef(null);
+const stats = [
+  { value: '3', label: 'Production internships' },
+  { value: '3★', label: 'CodeChef · 1661 peak' },
+  { value: '1645', label: 'LeetCode rating' },
+  { value: '500+', label: 'Users on a platform I led' },
+];
 
-  const handleTimeStoneClick = () => {
-    // No-op for now
-  };
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' },
+};
 
-  useEffect(() => {
-    const imgContainer = imageContainerRef.current;
-    const container = document.querySelector('.container');
-
-    const handleMouseMove = (e) => {
-      if (!container || !imgContainer) return;
-      const rect = container.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      const rotateY = x * 15;
-      const rotateX = -y * 15;
-      imgContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
+export default function Home() {
   return (
-    <div>
-      <style>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        html, body {
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          scroll-behavior: smooth;
-        }
-
-        body {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          background: linear-gradient(135deg, #1a0a0f 0%, #0f0505 50%, #1a0808 100%);
-          color: #fff;
-          transition: filter 2s ease;
-        }
-
-
-
-        .mirror-dimension {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          background: linear-gradient(135deg, #1a0a0f 0%, #0f0505 50%, #1a0808 100%);
-          animation: dimensionShift 25s ease-in-out infinite;
-        }
-
-        @keyframes dimensionShift {
-          0%, 100% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
-          33% { transform: scale(1.05) rotate(1deg); filter: hue-rotate(15deg); }
-          66% { transform: scale(0.95) rotate(-1deg); filter: hue-rotate(-15deg); }
-        }
-
-        .mandala-layer {
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          width: 150%;
-          height: 150%;
-          transform: translate(-50%, -50%);
-          z-index: 0;
-          pointer-events: none;
-          opacity: 0.08;
-        }
-
-        .mandala {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background-image: repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255, 140, 0, 0.1) 2deg, transparent 4deg, rgba(138, 43, 226, 0.1) 6deg, transparent 8deg);
-          animation: mandalaRotate 60s linear infinite;
-        }
-
-        @keyframes mandalaRotate {
-          0% { transform: rotate(0deg) scale(1); }
-          50% { transform: rotate(180deg) scale(1.1); }
-          100% { transform: rotate(360deg) scale(1); }
-        }
-
-        .kaleidoscope {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          pointer-events: none;
-          opacity: 0.12;
-          mix-blend-mode: screen;
-        }
-
-        .fractal-shape {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(2px);
-          animation: fractalFloat 20s ease-in-out infinite;
-        }
-
-        @keyframes fractalFloat {
-          0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.3; }
-          25% { transform: translate(50px, -50px) scale(1.2) rotate(90deg); opacity: 0.6; }
-          50% { transform: translate(-30px, 40px) scale(0.8) rotate(180deg); opacity: 0.4; }
-          75% { transform: translate(40px, 30px) scale(1.1) rotate(270deg); opacity: 0.5; }
-        }
-
-        .mirror-tiles {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          pointer-events: none;
-          opacity: 0.04;
-          background-image: linear-gradient(30deg, rgba(255, 140, 0, 0.1) 12%, transparent 12.5%, transparent 87%, rgba(255, 140, 0, 0.1) 87.5%), linear-gradient(150deg, rgba(255, 140, 0, 0.1) 12%, transparent 12.5%, transparent 87%, rgba(255, 140, 0, 0.1) 87.5%);
-          background-size: 80px 140px;
-          animation: tilesShift 40s linear infinite;
-        }
-
-        @keyframes tilesShift {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.1) rotate(2deg); }
-          100% { transform: scale(1); }
-        }
-
-        .energy-stream {
-          position: fixed;
-          width: 2px;
-          height: 100%;
-          background: linear-gradient(180deg, transparent, rgba(255, 140, 0, 0.3), rgba(138, 43, 226, 0.3), transparent);
-          z-index: 0;
-          pointer-events: none;
-          animation: streamFlow 15s ease-in-out infinite;
-          filter: blur(1px);
-        }
-
-        @keyframes streamFlow {
-          0%, 100% { transform: translateY(-100%) scaleY(1); opacity: 0.3; }
-          50% { transform: translateY(100%) scaleY(1.5); opacity: 0.6; }
-        }
-
-        .cosmic-nebula {
-          position: fixed;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          z-index: 0;
-          pointer-events: none;
-          opacity: 0.15;
-        }
-
-        .nebula-blob {
-          position: absolute;
-          border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-          filter: blur(60px);
-          animation: nebulaMorph 25s ease-in-out infinite;
-        }
-
-        @keyframes nebulaMorph {
-          0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(0, 0) rotate(0deg) scale(1); }
-          25% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(30px, -30px) rotate(90deg) scale(1.1); }
-          50% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; transform: translate(-20px, 40px) rotate(180deg) scale(0.9); }
-          75% { border-radius: 30% 70% 60% 40% / 50% 60% 40% 50%; transform: translate(40px, 20px) rotate(270deg) scale(1.05); }
-        }
-
-        .stars {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .star {
-          position: absolute;
-          background: #fff;
-          border-radius: 50%;
-          animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .particle {
-          position: fixed;
-          width: 3px;
-          height: 3px;
-          background: #ff8c00;
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 1;
-          animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
-          25% { transform: translateY(-40px) translateX(30px) scale(1.5); opacity: 1; }
-          50% { transform: translateY(-20px) translateX(-20px) scale(1); opacity: 0.8; }
-          75% { transform: translateY(-60px) translateX(40px) scale(1.3); opacity: 0.9; }
-        }
-
-        .container {
-          display: flex;
-          height: 100vh;
-          position: relative;
-          z-index: 2;
-          align-items: center;
-          padding: 0 50px;
-          perspective: 1000px;
-        }
-
-        .left-section {
-          flex: 1;
-          padding-left: 20px;
-          padding-right: 40px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          transform-style: preserve-3d;
-          margin-top: -8vh;
-          opacity: 0;
-          animation: slideInFromLeft 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        @keyframes slideInFromLeft {
-          0% { opacity: 0; transform: translateX(-100px) translateY(50px); }
-          100% { opacity: 1; transform: translateX(0) translateY(0); }
-        }
-
-        .name {
-          font-size: clamp(3.5rem, 7vw, 6rem);
-          font-weight: bold;
-          background: linear-gradient(135deg, #ffa500, #ff6b35, #f7931e);
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          margin-bottom: 1.5vh;
-          line-height: 1.1;
-          opacity: 0;
-          animation: slideInFromLeft 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards, gradientShift 4s ease 1.2s infinite;
-        }
-
-        .title {
-          font-size: clamp(2.5rem, 5vw, 4rem);
-          font-weight: bold;
-          color: #ffa500;
-          margin-bottom: 2.5vh;
-          line-height: 1.2;
-          text-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
-          opacity: 0;
-          animation: slideInFromLeft 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
-        }
-
-        .description {
-          font-size: clamp(1.3rem, 2.2vw, 1.8rem);
-          line-height: 1.7;
-          color: #d4d4d4;
-          max-width: 650px;
-          opacity: 0;
-          animation: slideInFromLeft 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
-        }
-
-        .social-icons {
-          display: flex;
-          gap: 20px;
-          margin-top: 30px;
-          opacity: 0;
-          animation: slideInFromLeft 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards;
-        }
-
-        .icon-link {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background: rgba(255, 140, 0, 0.1);
-          border: 1px solid rgba(255, 140, 0, 0.3);
-          color: #ffa500;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .icon-link::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle, rgba(255, 140, 0, 0.4) 0%, transparent 70%);
-          opacity: 0;
-          transform: scale(0.5);
-          transition: all 0.3s ease;
-        }
-
-        .icon-link:hover {
-          transform: translateY(-5px) scale(1.1);
-          border-color: #ffa500;
-          color: #fff;
-          box-shadow: 0 0 20px rgba(255, 140, 0, 0.4);
-          background: rgba(255, 140, 0, 0.2);
-        }
-
-        .icon-link:hover::before {
-          opacity: 1;
-          transform: scale(1.5);
-        }
-
-        .icon-link svg {
-          width: 24px;
-          height: 24px;
-          z-index: 1;
-          fill: currentColor;
-          transition: all 0.3s ease;
-        }
-
-        .icon-link:hover svg {
-          transform: scale(1.1);
-          filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-        }
-
-        @keyframes gradientShift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-
-        .right-section {
-          flex: 1;
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transform-style: preserve-3d;
-          margin-top: -2vh;
-          opacity: 0;
-          animation: slideInFromRight 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
-        }
-
-        @keyframes slideInFromRight {
-          0% { opacity: 0; transform: translateX(100px) translateY(50px) scale(0.8); }
-          100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); }
-        }
-
-        .image-container {
-          position: relative;
-          width: min(950px, 55vw);
-          height: min(90vh, 1050px);
-          transform-style: preserve-3d;
-          transition: transform 0.1s ease-out;
-        }
-
-        .strange-image {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          object-position: center;
-          filter: drop-shadow(0 0 50px rgba(255, 140, 0, 0.4));
-          transition: transform 0.3s ease;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 2;
-          display: block;
-        }
-
-        .portal-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 10;
-          pointer-events: none;
-        }
-
-        .portal-link {
-          pointer-events: all;
-          cursor: pointer;
-          outline: none;
-        }
-
-        .portal-circle {
-          fill: transparent;
-          stroke: transparent;
-          stroke-width: 0;
-          transition: all 0.3s ease;
-        }
-
-        .portal-link:hover .portal-circle {
-          fill: rgba(255, 140, 0, 0.25);
-          stroke: rgba(255, 140, 0, 1);
-          stroke-width: 3;
-          filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.9));
-        }
-
-        .portal-label-svg {
-          fill: #ffa500;
-          font-size: 14px;
-          font-weight: bold;
-          text-anchor: middle;
-          pointer-events: auto;
-          opacity: 1;
-          letter-spacing: 1.2px;
-          text-transform: uppercase;
-          filter: drop-shadow(0 0 3px rgba(255, 140, 0, 0.6));
-          cursor: pointer;
-        }
-
-        .portal-link:hover .portal-label-svg {
-          fill: #ffb700;
-          filter: drop-shadow(0 0 8px rgba(255, 140, 0, 1));
-        }
-
-        .label-line {
-          stroke: #ffa500;
-          stroke-width: 1.5;
-          fill: none;
-          pointer-events: none;
-          opacity: 1;
-          stroke-dasharray: 3, 3;
-        }
-
-        .portal-link:hover .label-line {
-          stroke: #ffb700;
-          stroke-width: 2;
-          filter: drop-shadow(0 0 4px rgba(255, 140, 0, 0.8));
-        }
-
-        .arrow-head {
-          fill: #ffa500;
-          pointer-events: none;
-        }
-
-        .portal-link:hover .arrow-head {
-          fill: #ffb700;
-        }
-
-        .time-stone-circle {
-          fill: transparent;
-          stroke: transparent;
-          stroke-width: 0;
-          cursor: pointer;
-          pointer-events: all;
-        }
-
-        .mystical-runes {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          pointer-events: none;
-          z-index: 3;
-        }
-
-        .rune {
-          position: absolute;
-          width: 60px;
-          height: 60px;
-          font-size: 40px;
-          color: #ffa500;
-          text-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
-          animation: runeFloat 8s ease-in-out infinite, runeRotate 10s linear infinite;
-          opacity: 0.6;
-          transition: all 0.4s ease;
-        }
-
-        .rune:hover {
-          opacity: 1;
-          transform: scale(1.3) !important;
-          text-shadow: 0 0 40px rgba(255, 165, 0, 1);
-        }
-
-        @keyframes runeFloat {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          25% { transform: translateY(-20px) translateX(10px); }
-          50% { transform: translateY(-10px) translateX(-10px); }
-          75% { transform: translateY(-25px) translateX(15px); }
-        }
-
-        @keyframes runeRotate {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        .spell-symbol {
-          position: absolute;
-          font-size: 24px;
-          color: #ffa500;
-          opacity: 0;
-          pointer-events: none;
-          animation: symbolAppear 5s ease-in-out infinite;
-          text-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
-        }
-
-        @keyframes symbolAppear {
-          0%, 100% { opacity: 0; transform: translateY(0) scale(0.5) rotate(0deg); }
-          20% { opacity: 1; transform: translateY(-20px) scale(1) rotate(180deg); }
-          80% { opacity: 1; transform: translateY(-40px) scale(1) rotate(360deg); }
-        }
-
-        .mandala-glow {
-          position: absolute;
-          bottom: -50px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 500px;
-          height: 250px;
-          background: radial-gradient(ellipse, rgba(255, 140, 0, 0.4), rgba(255, 107, 53, 0.2), transparent);
-          animation: mandalaGlow 3s ease-in-out infinite;
-          pointer-events: none;
-          filter: blur(20px);
-          z-index: 1;
-        }
-
-        @keyframes mandalaGlow {
-          0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-          50% { opacity: 1; transform: translateX(-50%) scale(1.15); }
-        }
-
-        .cloak-overlay {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          pointer-events: none;
-          z-index: 3;
-        }
-
-        .cloak-wave {
-          position: absolute;
-          width: 150px;
-          height: 200px;
-          background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.3), transparent);
-          animation: cloakFlutter 3s ease-in-out infinite;
-          filter: blur(5px);
-        }
-
-        .cloak-wave.left { left: 25%; top: 40%; }
-        .cloak-wave.right { right: 25%; top: 40%; }
-
-        @keyframes cloakFlutter {
-          0%, 100% { transform: translateX(0) skewX(0deg); opacity: 0.6; }
-          25% { transform: translateX(-10px) skewX(-5deg); opacity: 0.8; }
-          50% { transform: translateX(5px) skewX(3deg); opacity: 0.7; }
-          75% { transform: translateX(-5px) skewX(-3deg); opacity: 0.8; }
-        }
-
-        @media (max-width: 1920px) and (min-width: 1400px) {
-          .container { padding: 0 40px; }
-          .name { font-size: clamp(5rem, 5.5vw, 6rem); }
-          .title { font-size: clamp(3.5rem, 4vw, 4rem); }
-          .description { font-size: clamp(1.6rem, 1.8vw, 1.8rem); }
-          .image-container { width: min(1000px, 56vw); height: min(92vh, 1100px); }
-        }
-
-        @media (max-width: 1400px) and (min-width: 1200px) {
-          .container { padding: 0 30px; }
-          .name { font-size: clamp(4.5rem, 5.5vw, 5.5rem); }
-          .title { font-size: clamp(3.2rem, 3.8vw, 3.8rem); }
-          .description { font-size: clamp(1.5rem, 1.7vw, 1.7rem); }
-          .image-container { width: min(850px, 52vw); height: min(88vh, 950px); }
-        }
-
-        @media (max-width: 1200px) and (min-width: 1024px) {
-          .container { flex-direction: row; padding: 20px 30px; gap: 2vh; }
-          .left-section { text-align: left; padding: 10px; margin-bottom: 0; margin-top: -4vh; }
-          .name { font-size: clamp(5rem, 6vw, 6rem); }
-          .title { font-size: clamp(3.5rem, 4.2vw, 4.2rem); }
-          .description { font-size: clamp(1.6rem, 1.9vw, 1.9rem); max-width: 100%; }
-          .image-container { width: min(750px, 50vw); height: min(84vh, 850px); }
-          .right-section { margin-top: 0; }
-        }
-
-        @media (max-width: 1024px) and (min-width: 768px) and (orientation: landscape) {
-          .container { flex-direction: row; padding: 0 35px; }
-          .left-section { text-align: left; margin-top: -5vh; }
-          .name { font-size: clamp(4.5rem, 5.5vw, 5.5rem); }
-          .title { font-size: clamp(3.2rem, 4vw, 4rem); }
-          .description { font-size: clamp(1.5rem, 1.8vw, 1.8rem); }
-          .image-container { width: min(700px, 52vw); height: min(85vh, 850px); }
-        }
-
-        @media (max-width: 1024px) and (min-width: 768px) and (orientation: portrait) {
-          .container { flex-direction: column; padding: 20px 40px; gap: 2vh; }
-          .left-section { text-align: center; margin-top: -3vh; }
-          .name { font-size: clamp(5rem, 6.5vw, 6.5rem); }
-          .title { font-size: clamp(3.8rem, 4.8vw, 4.8rem); }
-          .description { font-size: clamp(1.7rem, 2.1vw, 2.1rem); }
-          .image-container { width: min(800px, 85vw); height: min(68vh, 850px); }
-        }
-
-        @media (max-width: 768px) and (min-width: 600px) {
-          .container { flex-direction: column; padding: 15px 25px; gap: 1.5vh; }
-          .left-section { text-align: center; margin-top: -3vh; }
-          .name { font-size: clamp(4rem, 6vw, 5rem); }
-          .title { font-size: clamp(2.8rem, 4.2vw, 3.5rem); }
-          .description { font-size: clamp(1.4rem, 2vw, 1.7rem); }
-          .image-container { width: min(600px, 88vw); height: min(62vh, 700px); }
-          .right-section { margin-top: 0; }
-        }
-
-        @media (max-width: 600px) and (min-width: 480px) {
-          .container { flex-direction: column; padding: 12px 20px; gap: 1vh; }
-          .left-section { margin-top: -2.5vh; }
-          .name { font-size: clamp(3.5rem, 7vw, 4.2rem); }
-          .title { font-size: clamp(2.5rem, 5.5vw, 3rem); }
-          .description { font-size: clamp(1.2rem, 2.5vw, 1.5rem); line-height: 1.6; }
-          .image-container { width: 90vw; height: min(58vh, 600px); }
-        }
-
-        @media (max-width: 480px) {
-          .container { flex-direction: column; padding: 10px 15px; }
-          .left-section { margin-top: -2vh; }
-          .name { font-size: clamp(3rem, 8vw, 3.8rem); }
-          .title { font-size: clamp(2.2rem, 6vw, 2.8rem); }
-          .description { font-size: clamp(1.1rem, 3vw, 1.4rem); line-height: 1.6; }
-          .image-container { width: 94vw; height: min(56vh, 550px); }
-        }
-      `}</style>
-
-      <BackgroundEffects />
-      <CursorCanvas />
-
-
-      <div className="container">
-        <div className="left-section">
-          <div className="name">Akshat Garg</div>
-          <div className="title">Full Stack Developer</div>
-         <div className="description">
-  A Full-Stack Developer building clean, reliable web applications
-  from end to end.
-</div>
-
-          <div className="social-icons">
-            <a href="https://github.com/AkshatGarg952" target="_blank" rel="noopener noreferrer" className="icon-link" aria-label="GitHub">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
-            </a>
-            <a href="https://www.linkedin.com/in/akshat-garg-79b06428a/" target="_blank" rel="noopener noreferrer" className="icon-link" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </a>
-          </div>
-
+    <main>
+      {/* Hero */}
+      <section className="min-h-[92vh] flex items-center section-pad pt-32 pb-16">
+        <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="mb-6">
+              <StatusPill />
+            </div>
+
+            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.05] text-ink">
+              Akshat Garg
+            </h1>
+            <p className="mt-3 text-xl sm:text-2xl text-gold font-medium font-display italic">
+              Full-Stack Developer &amp; AI Engineer
+            </p>
+
+            <p className="mt-6 text-muted text-lg leading-relaxed max-w-xl">
+              I design and ship reliable backend systems, scalable APIs, and AI-powered
+              products &mdash; from idea to production, used by real people.
+            </p>
+
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <MagneticButton>
+                <Link to="/projects" className="btn-primary" data-cursor-hover>
+                  View My Work <ArrowRight size={16} />
+                </Link>
+              </MagneticButton>
+              <MagneticButton>
+                <Link to="/contact" className="btn-secondary" data-cursor-hover>
+                  Get In Touch
+                </Link>
+              </MagneticButton>
+            </div>
+
+            <div className="mt-10 flex items-center gap-5">
+              <a
+                href="https://github.com/AkshatGarg952"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-muted hover:text-ink transition-colors"
+              >
+                <Github size={20} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/akshat-garg-79b06428a/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="text-muted hover:text-ink transition-colors"
+              >
+                <Linkedin size={20} />
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="h-[360px] sm:h-[440px] lg:h-[520px]"
+          >
+            <HeroVisual />
+          </motion.div>
         </div>
+      </section>
 
-        <div className="right-section">
-          <div className="image-container" ref={imageContainerRef}>
-            <img 
-              src="https://res.cloudinary.com/dnd6asdiw/image/upload/v1761976776/Doctor-Strange_juvrr7.png" 
-              alt="Doctor Strange" 
-              className="strange-image" 
-            />
-
-            <PortalOverlay onTimeStoneClick={handleTimeStoneClick} />
-            <MysticalEffects />
-          </div>
-        </div>
+      <div className="flex justify-center pb-10 text-muted">
+        <ArrowDown size={18} className="animate-float" />
       </div>
-    </div>
+
+      {/* Tech marquee */}
+      <section className="border-y border-white/[0.06] py-8">
+        <TechMarquee />
+      </section>
+
+      {/* Quick facts */}
+      <section className="section-pad py-24 max-w-6xl mx-auto">
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+        >
+          {stats.map((s) => (
+            <div key={s.label} className="glass glass-hover rounded-2xl p-6 text-center">
+              <p className="font-display text-3xl sm:text-4xl gradient-text font-medium">{s.value}</p>
+              <p className="text-muted text-sm mt-2">{s.label}</p>
+            </div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Featured work */}
+      <section className="section-pad py-8 max-w-6xl mx-auto">
+        <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="flex items-end justify-between mb-10">
+          <div>
+            <p className="eyebrow mb-3">Selected work</p>
+            <h2 className="font-display text-3xl sm:text-4xl text-ink font-medium">Featured projects</h2>
+          </div>
+          <Link
+            to="/projects"
+            className="hidden sm:flex items-center gap-1.5 text-sm text-muted hover:text-gold transition-colors"
+            data-cursor-hover
+          >
+            View all <ArrowRight size={14} />
+          </Link>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {projects.slice(0, 2).map((project, i) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+            >
+              <Link
+                to="/projects"
+                className="group block glass glass-hover rounded-2xl overflow-hidden"
+                data-cursor-hover
+              >
+                <div className="h-52 overflow-hidden">
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-xl text-ink mb-2">{project.title}</h3>
+                  <p className="text-muted text-sm leading-relaxed line-clamp-2">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {project.tech.slice(0, 3).map((t) => (
+                      <span key={t} className="text-xs text-muted border border-white/10 rounded-full px-2.5 py-1">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Closing CTA */}
+      <section className="section-pad py-32 max-w-4xl mx-auto text-center">
+        <motion.div {...fadeUp} transition={{ duration: 0.6 }}>
+          <h2 className="font-display text-3xl sm:text-5xl text-ink font-medium leading-tight">
+            Let&rsquo;s build something <span className="gradient-text italic">great</span> together.
+          </h2>
+          <div className="mt-10">
+            <MagneticButton>
+              <Link to="/contact" className="btn-primary" data-cursor-hover>
+                Start a conversation <ArrowRight size={16} />
+              </Link>
+            </MagneticButton>
+          </div>
+        </motion.div>
+      </section>
+    </main>
   );
 }
-
-export default Home;
