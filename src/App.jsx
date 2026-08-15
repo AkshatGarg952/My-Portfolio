@@ -11,22 +11,27 @@ import Skills from './pages/Skills.jsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
+
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Jump, don't smooth-scroll: a route change should feel instant, and
+    // smooth-scrolling here fights the page transition.
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [pathname]);
+
   return null;
 }
 
 function AnimatedRoutes() {
   const location = useLocation();
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <Routes location={location}>
           <Route path="/" element={<Home />} />
@@ -35,13 +40,15 @@ function AnimatedRoutes() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/experience" element={<Experience />} />
           <Route path="/contact" element={<ContactPage />} />
+          {/* Anything unrecognised lands on the homepage rather than a blank screen */}
+          <Route path="*" element={<Home />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
   );
 }
 
-function App() {
+export default function App() {
   return (
     <Router>
       <ScrollToTop />
@@ -51,5 +58,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

@@ -1,53 +1,83 @@
 import { motion } from 'framer-motion';
+import { Building2 } from 'lucide-react';
+import useSpotlight from '../hooks/useSpotlight.js';
 
-const techColors = ['#E4B65A', '#8C7CF0', '#6cb8ff', '#6aff8e', '#ffe985', '#ff7d6f'];
+export default function ExperienceCard({
+  company,
+  role,
+  duration,
+  achievements,
+  tech,
+  index = 0,
+}) {
+  const spotlight = useSpotlight();
 
-export default function ExperienceCard({ company, role, duration, achievements, tech, index = 0 }) {
   return (
-    <div className="relative pl-10 sm:pl-14 pb-14 last:pb-0">
-      <span className="absolute left-0 sm:left-1 top-2 w-4 h-4 rounded-full bg-gold ring-4 ring-bg shadow-glow" />
+    <div className="relative pb-12 pl-8 last:pb-0 sm:pl-12">
+      {/* Timeline node, sitting on the rail drawn by the parent */}
+      <span className="absolute left-0 top-7 flex h-7 w-7 -translate-x-1/2 items-center justify-center">
+        <span className="absolute h-7 w-7 rounded-full bg-bg" />
+        <span className="absolute h-4 w-4 rounded-full border border-gold/50 bg-gold/20" />
+        <span className="relative h-1.5 w-1.5 rounded-full bg-gold shadow-glow" />
+      </span>
 
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
+      {/* Short connector so the node reads as attached to the card */}
+      <span
+        className="absolute left-3 top-[calc(1.75rem+0.5px)] h-px w-5 bg-gradient-to-r from-gold/40 to-transparent sm:w-7"
+        aria-hidden="true"
+      />
+
+      <motion.article
+        initial={{ opacity: 0, y: 26 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.5, delay: index * 0.05 }}
-        className="glass glass-hover rounded-2xl p-6"
+        viewport={{ once: true, margin: '-70px' }}
+        transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+        className="card"
+        {...spotlight}
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-          <div>
-            <h2 className="font-display text-xl sm:text-2xl text-ink">{company}</h2>
-            <p className="text-muted italic">{role}</p>
-          </div>
-          <span className="text-xs font-medium text-gold border border-gold/30 bg-gold/5 rounded-full px-3.5 py-1.5 whitespace-nowrap self-start">
-            {duration}
-          </span>
-        </div>
+        <div className="card-body">
+          <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gold/20 bg-gold/[0.07]">
+                <Building2 size={17} className="text-gold" />
+              </span>
+              <div className="min-w-0">
+                <h2 className="font-display text-fluid-xl leading-tight text-ink">
+                  {company}
+                </h2>
+                <p className="mt-0.5 text-fluid-sm italic text-muted">{role}</p>
+              </div>
+            </div>
 
-        <ul className="space-y-2.5 mb-5">
-          {achievements.map((text, i) => (
-            <li key={i} className="flex items-start gap-3 text-sm text-muted leading-relaxed">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 shrink-0" />
-              {text}
-            </li>
-          ))}
-        </ul>
+            <span className="shrink-0 self-start rounded-full border border-gold/25 bg-gold/[0.07] px-3.5 py-1.5 font-mono text-fluid-xs text-gold">
+              {duration}
+            </span>
+          </header>
 
-        <div className="flex flex-wrap gap-2 pt-4 border-t border-white/[0.06]">
-          {tech.map((t, i) => {
-            const color = techColors[i % techColors.length];
-            return (
-              <span
-                key={t}
-                className="px-3 py-1 text-xs rounded-full border"
-                style={{ color, borderColor: `${color}40`, background: `${color}0d` }}
+          <ul className="space-y-3">
+            {achievements.map((text, i) => (
+              <li
+                key={i}
+                className="flex gap-3 text-fluid-sm leading-relaxed text-ink-2"
               >
+                <span
+                  className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-gold/70"
+                  aria-hidden="true"
+                />
+                <span>{text}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 flex flex-wrap gap-1.5 border-t border-white/[0.07] pt-5">
+            {tech.map((t) => (
+              <span key={t} className="chip">
                 {t}
               </span>
-            );
-          })}
+            ))}
+          </div>
         </div>
-      </motion.div>
+      </motion.article>
     </div>
   );
 }

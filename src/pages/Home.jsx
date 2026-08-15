@@ -1,191 +1,295 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, ArrowRight, ArrowDown } from 'lucide-react';
-import HeroVisual from '../components/HeroVisual.jsx';
+import { Github, Linkedin, ArrowRight, ArrowUpRight, FileText, ArrowDown } from 'lucide-react';
+import SystemDiagram from '../components/SystemDiagram.jsx';
 import StatusPill from '../components/StatusPill.jsx';
 import TechMarquee from '../components/TechMarquee.jsx';
 import MagneticButton from '../components/MagneticButton.jsx';
+import Reveal from '../components/Reveal.jsx';
+import useSpotlight from '../hooks/useSpotlight.js';
 import { projects } from '../data/projects.js';
+import { experiences } from '../data/experience.js';
+import { site, links, metrics, focusAreas } from '../data/site.js';
 
-const stats = [
-  { value: '3', label: 'Production internships' },
-  { value: '3★', label: 'CodeChef · 1661 peak' },
-  { value: '1645', label: 'LeetCode rating' },
-  { value: '500+', label: 'Users on a platform I led' },
-];
-
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-80px' },
-};
+const ease = [0.22, 1, 0.36, 1];
 
 export default function Home() {
+  const spotlight = useSpotlight();
+
   return (
     <main>
-      {/* Hero */}
-      <section className="min-h-[92vh] flex items-center section-pad pt-32 pb-16">
-        <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="mb-6">
-              <StatusPill />
-            </div>
+      {/* ── Hero ───────────────────────────────────────────────── */}
+      {/* The 92svh floor only applies once the hero is side-by-side. Stacked,
+          it would stretch the two auto rows and open a dead gap between the
+          copy and the diagram. */}
+      <section className="shell grid gap-10 pb-16 pt-28 lg:min-h-[92svh] lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:pt-32">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, ease }}
+        >
+          <StatusPill />
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.05] text-ink">
-              Akshat Garg
-            </h1>
-            <p className="mt-3 text-xl sm:text-2xl text-gold font-medium font-display italic">
-              Full-Stack Developer &amp; AI Engineer
-            </p>
+          <h1 className="mt-6 font-display text-fluid-4xl font-medium leading-[1.02] text-ink">
+            {site.name}
+          </h1>
 
-            <p className="mt-6 text-muted text-lg leading-relaxed max-w-xl">
-              I design and ship reliable backend systems, scalable APIs, and AI-powered
-              products &mdash; from idea to production, used by real people.
-            </p>
+          <p className="mt-3 font-display text-fluid-xl italic text-gold">{site.role}</p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <MagneticButton>
-                <Link to="/projects" className="btn-primary" data-cursor-hover>
-                  View My Work <ArrowRight size={16} />
-                </Link>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/contact" className="btn-secondary" data-cursor-hover>
-                  Get In Touch
-                </Link>
-              </MagneticButton>
-            </div>
+          <p className="mt-6 max-w-prose text-fluid-base leading-relaxed text-ink-2">
+            {site.tagline} Three production internships building queues that stay ordered
+            under load, retrieval layers that actually retrieve, and APIs other engineers
+            can maintain after I&rsquo;ve moved on.
+          </p>
 
-            <div className="mt-10 flex items-center gap-5">
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <MagneticButton>
+              <Link to="/projects" className="btn-primary" data-cursor-hover>
+                View my work <ArrowRight size={16} />
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
               <a
-                href="https://github.com/AkshatGarg952"
+                href={links.resume}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="text-muted hover:text-ink transition-colors"
+                className="btn-secondary"
+                data-cursor-hover
               >
-                <Github size={20} />
+                <FileText size={15} /> Résumé
               </a>
-              <a
-                href="https://www.linkedin.com/in/akshat-garg-79b06428a/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="text-muted hover:text-ink transition-colors"
-              >
-                <Linkedin size={20} />
-              </a>
-            </div>
-          </motion.div>
+            </MagneticButton>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="h-[360px] sm:h-[440px] lg:h-[520px]"
-          >
-            <HeroVisual />
-          </motion.div>
-        </div>
+          <div className="mt-9 flex items-center gap-5">
+            <a
+              href={links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="text-muted transition-colors hover:text-ink"
+            >
+              <Github size={19} />
+            </a>
+            <a
+              href={links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-muted transition-colors hover:text-ink"
+            >
+              <Linkedin size={19} />
+            </a>
+            <span className="h-4 w-px bg-white/10" />
+            <Link
+              to="/contact"
+              className="btn-ghost"
+              data-cursor-hover
+            >
+              Get in touch <ArrowUpRight size={14} />
+            </Link>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.85, delay: 0.15, ease }}
+          className="h-[380px] sm:h-[460px] lg:h-[540px]"
+        >
+          <SystemDiagram />
+        </motion.div>
       </section>
 
-      <div className="flex justify-center pb-10 text-muted">
-        <ArrowDown size={18} className="animate-float" />
+      <div className="flex justify-center pb-10 text-faint" aria-hidden="true">
+        <ArrowDown size={17} className="animate-float" />
       </div>
 
-      {/* Tech marquee */}
-      <section className="border-y border-white/[0.06] py-8">
+      {/* ── Stack marquee ──────────────────────────────────────── */}
+      <section className="border-y border-white/[0.06] py-7" aria-label="Technology stack">
         <TechMarquee />
       </section>
 
-      {/* Quick facts */}
-      <section className="section-pad py-24 max-w-6xl mx-auto">
-        <motion.div
-          {...fadeUp}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
-        >
-          {stats.map((s) => (
-            <div key={s.label} className="glass glass-hover rounded-2xl p-6 text-center">
-              <p className="font-display text-3xl sm:text-4xl gradient-text font-medium">{s.value}</p>
-              <p className="text-muted text-sm mt-2">{s.label}</p>
-            </div>
+      {/* ── Proof ──────────────────────────────────────────────── */}
+      <section className="shell section-y">
+        <Reveal className="mb-10">
+          <p className="eyebrow mb-4">By the numbers</p>
+          <h2 className="max-w-2xl font-display text-fluid-2xl font-medium text-ink">
+            Shipped work, not coursework.
+          </h2>
+        </Reveal>
+
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {metrics.map((m, i) => (
+            <Reveal key={m.label} delay={i * 0.07}>
+              <div className="card h-full" {...spotlight}>
+                <div className="card-body">
+                  <p className="gradient-text font-display text-fluid-2xl font-medium">
+                    {m.value}
+                  </p>
+                  <p className="mt-2 text-fluid-sm font-medium text-ink">{m.label}</p>
+                  <p className="mt-1.5 text-fluid-xs leading-relaxed text-muted">
+                    {m.detail}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
           ))}
-        </motion.div>
+        </div>
       </section>
 
-      {/* Featured work */}
-      <section className="section-pad py-8 max-w-6xl mx-auto">
-        <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="flex items-end justify-between mb-10">
+      {/* ── What I do ──────────────────────────────────────────── */}
+      <section className="shell section-y pt-0">
+        <Reveal className="mb-10">
+          <p className="eyebrow mb-4">What I do</p>
+          <h2 className="max-w-2xl font-display text-fluid-2xl font-medium text-ink">
+            Three things I&rsquo;m genuinely good at.
+          </h2>
+        </Reveal>
+
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-3">
+          {focusAreas.map((f, i) => (
+            <Reveal key={f.title} delay={i * 0.08}>
+              <div className="card h-full" {...spotlight}>
+                <div className="card-body">
+                  <span className="font-mono text-fluid-xs text-gold/70">
+                    0{i + 1}
+                  </span>
+                  <h3 className="mt-4 font-display text-fluid-lg text-ink">{f.title}</h3>
+                  <p className="mt-2.5 text-fluid-sm leading-relaxed text-muted">
+                    {f.body}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Featured work ──────────────────────────────────────── */}
+      <section className="shell section-y pt-0">
+        <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="eyebrow mb-3">Selected work</p>
-            <h2 className="font-display text-3xl sm:text-4xl text-ink font-medium">Featured projects</h2>
+            <p className="eyebrow mb-4">Selected work</p>
+            <h2 className="font-display text-fluid-2xl font-medium text-ink">
+              Featured projects
+            </h2>
           </div>
-          <Link
-            to="/projects"
-            className="hidden sm:flex items-center gap-1.5 text-sm text-muted hover:text-gold transition-colors"
-            data-cursor-hover
-          >
+          <Link to="/projects" className="btn-ghost" data-cursor-hover>
             View all <ArrowRight size={14} />
           </Link>
-        </motion.div>
+        </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
           {projects.slice(0, 2).map((project, i) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-            >
+            <Reveal key={project.title} delay={i * 0.09}>
               <Link
                 to="/projects"
-                className="group block glass glass-hover rounded-2xl overflow-hidden"
+                className="card group block h-full"
                 data-cursor-hover
+                {...spotlight}
               >
-                <div className="h-52 overflow-hidden">
+                <div className="relative aspect-[16/10] overflow-hidden">
                   <img
                     src={project.thumbnail}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    alt=""
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-[900ms] ease-smooth group-hover:scale-[1.06]"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
                 </div>
-                <div className="p-6">
-                  <h3 className="font-display text-xl text-ink mb-2">{project.title}</h3>
-                  <p className="text-muted text-sm leading-relaxed line-clamp-2">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {project.tech.slice(0, 3).map((t) => (
-                      <span key={t} className="text-xs text-muted border border-white/10 rounded-full px-2.5 py-1">
+
+                <div className="card-body pt-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-display text-fluid-lg text-ink">{project.title}</h3>
+                    <ArrowUpRight
+                      size={17}
+                      className="mt-1 shrink-0 text-muted transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold"
+                    />
+                  </div>
+                  <p className="mt-2 line-clamp-2 text-fluid-sm leading-relaxed text-muted">
+                    {project.description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <span key={t} className="chip">
                         {t}
                       </span>
                     ))}
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Closing CTA */}
-      <section className="section-pad py-32 max-w-4xl mx-auto text-center">
-        <motion.div {...fadeUp} transition={{ duration: 0.6 }}>
-          <h2 className="font-display text-3xl sm:text-5xl text-ink font-medium leading-tight">
-            Let&rsquo;s build something <span className="gradient-text italic">great</span> together.
+      {/* ── Experience preview ─────────────────────────────────── */}
+      <section className="shell section-y pt-0">
+        <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow mb-4">Experience</p>
+            <h2 className="font-display text-fluid-2xl font-medium text-ink">
+              Where I&rsquo;ve shipped
+            </h2>
+          </div>
+          <Link to="/experience" className="btn-ghost" data-cursor-hover>
+            Full history <ArrowRight size={14} />
+          </Link>
+        </Reveal>
+
+        <div className="overflow-hidden rounded-3xl border border-white/[0.07]">
+          {experiences.map((exp, i) => (
+            <Reveal key={exp.company} delay={i * 0.06}>
+              <Link
+                to="/experience"
+                data-cursor-hover
+                className={`group flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-6 transition-colors duration-300 hover:bg-white/[0.03] sm:px-7 ${
+                  i > 0 ? 'border-t border-white/[0.07]' : ''
+                }`}
+              >
+                <div className="min-w-0">
+                  <h3 className="font-display text-fluid-lg text-ink">{exp.company}</h3>
+                  <p className="text-fluid-sm text-muted">{exp.role}</p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="font-mono text-fluid-xs text-faint">{exp.duration}</span>
+                  <ArrowUpRight
+                    size={16}
+                    className="shrink-0 text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold"
+                  />
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Closing ────────────────────────────────────────────── */}
+      <section className="shell-narrow section-y pt-0 text-center">
+        <Reveal>
+          <p className="eyebrow eyebrow-center mb-5 justify-center">What&rsquo;s next</p>
+          <h2 className="mx-auto max-w-3xl font-display text-fluid-3xl font-medium leading-[1.08] text-ink">
+            Let&rsquo;s build something{' '}
+            <span className="gradient-text italic">worth maintaining</span>.
           </h2>
-          <div className="mt-10">
+          <p className="mx-auto mt-5 max-w-xl text-fluid-base leading-relaxed text-muted">
+            {site.availability}. If you&rsquo;re hiring for backend, platform or applied-AI
+            work, I&rsquo;d like to hear about it.
+          </p>
+          <div className="mt-9 flex flex-wrap justify-center gap-3">
             <MagneticButton>
               <Link to="/contact" className="btn-primary" data-cursor-hover>
                 Start a conversation <ArrowRight size={16} />
               </Link>
             </MagneticButton>
+            <MagneticButton>
+              <a href={links.email} className="btn-secondary" data-cursor-hover>
+                {site.email}
+              </a>
+            </MagneticButton>
           </div>
-        </motion.div>
+        </Reveal>
       </section>
     </main>
   );

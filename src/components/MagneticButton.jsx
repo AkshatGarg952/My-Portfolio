@@ -1,24 +1,37 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 /**
- * Wraps any button/link and nudges it toward the cursor on hover.
- * Usage: <MagneticButton><Link to="/projects" className="btn-primary">View Projects</Link></MagneticButton>
+ * Nudges whatever it wraps toward the cursor on hover.
+ *
+ *   <MagneticButton><Link to="/projects" className="btn-primary">…</Link></MagneticButton>
+ *
+ * Disabled on coarse pointers and under reduced-motion, where the effect is
+ * either impossible or unwanted.
  */
-export default function MagneticButton({ children, className = '', strength = 0.3 }) {
+export default function MagneticButton({ children, className = '', strength = 0.28 }) {
   const ref = useRef(null);
+  const [enabled, setEnabled] = useState(false);
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 15, mass: 0.4 });
-  const springY = useSpring(y, { stiffness: 200, damping: 15, mass: 0.4 });
+  const springX = useSpring(x, { stiffness: 220, damping: 16, mass: 0.35 });
+  const springY = useSpring(y, { stiffness: 220, damping: 16, mass: 0.35 });
+
+  useEffect(() => {
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setEnabled(fine && !reduced);
+  }, []);
 
   const handleMouseMove = (e) => {
+    if (!enabled || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     x.set((e.clientX - rect.left - rect.width / 2) * strength);
     y.set((e.clientY - rect.top - rect.height / 2) * strength);
   };
 
-  const handleMouseLeave = () => {
+  const reset = () => {
     x.set(0);
     y.set(0);
   };
@@ -27,8 +40,8 @@ export default function MagneticButton({ children, className = '', strength = 0.
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
+      onMouseLeave={reset}
+      style={enabled ? { x: springX, y: springY } : undefined}
       className={`inline-block ${className}`}
     >
       {children}

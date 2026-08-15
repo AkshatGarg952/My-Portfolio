@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Command, Flashlight } from 'lucide-react';
+import { Menu, X, Command, FileText, ArrowUpRight } from 'lucide-react';
+import { links } from '../data/site.js';
 
 const navItems = [
   { name: 'Home', path: '/' },
@@ -20,52 +21,79 @@ export default function Navbar() {
 
   useEffect(() => {
     let lastY = window.scrollY;
+    let frame = 0;
+
     const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 20);
-      setHidden(y > lastY && y > 120);
-      lastY = y;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const y = window.scrollY;
+        setScrolled(y > 16);
+        // Only hide once past the hero, and never while the menu is open.
+        setHidden(y > lastY && y > 160);
+        lastY = y;
+      });
     };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
+  useEffect(() => setIsMenuOpen(false), [location.pathname]);
+
+  // Lock the page behind the mobile sheet, and let Esc dismiss it.
   useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location.pathname]);
+    if (!isMenuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => e.key === 'Escape' && setIsMenuOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
       <motion.header
-        animate={{ y: hidden ? -100 : 0 }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 sm:pt-5 px-4"
+        animate={{ y: hidden && !isMenuOpen ? -110 : 0 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-5 sm:pt-5"
       >
         <nav
-          className={`w-full max-w-3xl flex items-center justify-between gap-4 rounded-full px-4 sm:px-5 py-2.5 transition-all duration-300 ${
-            scrolled ? 'glass shadow-lg shadow-black/20' : 'border border-transparent'
+          className={`flex w-full max-w-4xl items-center justify-between gap-3 rounded-full px-3 py-2 transition-all duration-500 sm:px-4 ${
+            scrolled ? 'glass shadow-lift' : 'border border-transparent'
           }`}
         >
-          <Link to="/" className="font-display text-lg font-semibold text-ink tracking-tight shrink-0">
+          <Link
+            to="/"
+            className="shrink-0 pl-1.5 font-display text-lg font-semibold tracking-tight text-ink sm:text-xl"
+            aria-label="Home"
+          >
             AG<span className="text-gold">.</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden items-center gap-0.5 md:flex">
             {navItems.map((item) => {
               const active = location.pathname === item.path;
               return (
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`relative px-3.5 py-1.5 text-sm font-medium rounded-full transition-colors ${
-                    active ? 'text-[#181206]' : 'text-muted hover:text-ink'
+                  aria-current={active ? 'page' : undefined}
+                  className={`relative rounded-full px-3.5 py-1.5 text-fluid-sm font-medium transition-colors duration-300 ${
+                    active ? 'text-[#17130a]' : 'text-muted hover:text-ink'
                   }`}
                 >
                   {active && (
                     <motion.span
                       layoutId="nav-active-pill"
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-gold to-gold-light -z-10"
-                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-gold to-gold-light"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                     />
                   )}
                   {item.name}
@@ -74,27 +102,32 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => window.dispatchEvent(new Event('trigger-bat-signal'))}
-              aria-label="Signal the Bat"
-              title="Signal the Bat"
-              className="w-9 h-9 flex items-center justify-center text-muted hover:text-gold transition-colors"
-            >
-              <Flashlight size={18} />
-            </button>
-
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
-              className="hidden md:flex items-center gap-1.5 text-xs text-muted border border-white/10 rounded-full px-3 py-1.5 hover:border-white/25 hover:text-ink transition-colors"
+              aria-label="Open command palette"
+              className="hidden items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-fluid-xs text-muted transition-colors hover:border-white/25 hover:text-ink lg:flex"
             >
-              <Command size={12} /> K
+              <Command size={11} />K
             </button>
+
+            {/* Resume is the single thing a recruiter is most likely to want,
+                so it gets a permanent slot rather than living in a menu. */}
+            <a
+              href={links.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1.5 text-fluid-sm font-semibold text-gold transition-all duration-300 hover:border-gold/60 hover:bg-gold/[0.18] sm:flex"
+            >
+              <FileText size={13} />
+              Résumé
+            </a>
 
             <button
               onClick={() => setIsMenuOpen((o) => !o)}
-              className="md:hidden w-9 h-9 flex items-center justify-center text-ink"
-              aria-label="Toggle menu"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-ink md:hidden"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -108,32 +141,52 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 md:hidden bg-black/80 backdrop-blur-md"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-40 bg-bg/92 backdrop-blur-2xl md:hidden"
             onClick={() => setIsMenuOpen(false)}
           >
-            <motion.div
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="mt-24 mx-4 glass rounded-2xl p-4 flex flex-col gap-1"
+            <div
+              className="safe-bottom flex h-full flex-col justify-between px-6 pb-8 pt-28"
               onClick={(e) => e.stopPropagation()}
             >
-              {navItems.map((item) => {
-                const active = location.pathname === item.path;
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className={`px-4 py-3 rounded-xl text-base font-medium transition-colors ${
-                      active ? 'bg-gold/10 text-gold' : 'text-muted hover:text-ink'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </motion.div>
+              <nav className="flex flex-col">
+                {navItems.map((item, i) => {
+                  const active = location.pathname === item.path;
+                  return (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, y: 18 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 + i * 0.045, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <Link
+                        to={item.path}
+                        className={`flex items-baseline justify-between border-b border-white/[0.07] py-4 font-display text-3xl transition-colors ${
+                          active ? 'text-gold' : 'text-ink/85'
+                        }`}
+                      >
+                        {item.name}
+                        <span className="font-mono text-fluid-xs text-faint">
+                          0{i + 1}
+                        </span>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </nav>
+
+              <motion.a
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.4 }}
+                href={links.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary mt-8 w-full"
+              >
+                View Résumé <ArrowUpRight size={16} />
+              </motion.a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

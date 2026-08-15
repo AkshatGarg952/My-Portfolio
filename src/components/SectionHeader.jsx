@@ -1,22 +1,62 @@
 import { motion } from 'framer-motion';
 
-export default function SectionHeader({ eyebrow, title, highlight, description }) {
+const ease = [0.22, 1, 0.36, 1];
+
+/**
+ * Page and section heading. Left-aligned by default — it reads as editorial
+ * rather than "landing page template", and it gives long descriptions a
+ * comfortable measure instead of centring them into a narrow column.
+ */
+export default function SectionHeader({
+  eyebrow,
+  title,
+  highlight,
+  description,
+  align = 'left',
+  className = '',
+}) {
+  const centered = align === 'center';
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="mb-16 text-center max-w-2xl mx-auto"
+    <div
+      className={`mb-12 sm:mb-16 ${centered ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'} ${className}`}
     >
-      {eyebrow && <p className="eyebrow mb-4 justify-center">{eyebrow}</p>}
-      <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium text-ink leading-tight">
-        {title}
-        {highlight && <> <span className="gradient-text italic">{highlight}</span></>}
-      </h1>
-      {description && (
-        <p className="text-muted text-base sm:text-lg mt-5 leading-relaxed">{description}</p>
+      {eyebrow && (
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease }}
+          className={`eyebrow mb-5 ${centered ? 'eyebrow-center justify-center' : ''}`}
+        >
+          {eyebrow}
+        </motion.p>
       )}
-    </motion.div>
+
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, delay: 0.06, ease }}
+        className="font-display text-fluid-3xl font-medium leading-[1.06] text-ink"
+      >
+        {title}
+        {highlight && (
+          <>
+            {' '}
+            <span className="gradient-text italic">{highlight}</span>
+          </>
+        )}
+      </motion.h1>
+
+      {description && (
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.14, ease }}
+          className={`mt-5 text-fluid-base leading-relaxed text-muted ${centered ? 'mx-auto' : ''} max-w-prose`}
+        >
+          {description}
+        </motion.p>
+      )}
+    </div>
   );
 }

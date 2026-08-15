@@ -38,7 +38,7 @@ export default function BatSignal() {
           <motion.div
             className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[560px] max-w-[85vw] h-[78vh]"
             style={{
-              background: 'linear-gradient(to top, rgba(228,182,90,0.22), rgba(228,182,90,0.05) 65%, transparent)',
+              background: 'linear-gradient(to top, rgba(232,185,97,0.22), rgba(232,185,97,0.05) 65%, transparent)',
               clipPath: 'polygon(47% 100%, 53% 100%, 100% 0%, 0% 0%)',
             }}
             initial={{ opacity: 0 }}
@@ -51,7 +51,7 @@ export default function BatSignal() {
             className="absolute left-1/2 top-[10%] -translate-x-1/2 w-[46vw] h-[46vw] max-w-[520px] max-h-[520px] rounded-full flex items-center justify-center"
             style={{
               background:
-                'radial-gradient(circle, rgba(243,212,140,0.5) 0%, rgba(228,182,90,0.32) 32%, rgba(228,182,90,0.1) 55%, transparent 72%)',
+                'radial-gradient(circle, rgba(246,220,160,0.5) 0%, rgba(232,185,97,0.32) 32%, rgba(232,185,97,0.1) 55%, transparent 72%)',
               filter: 'blur(1px)',
             }}
             initial={{ opacity: 0, scale: 0.85 }}
@@ -65,7 +65,7 @@ export default function BatSignal() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              <g fill="#0A0A0C">
+              <g fill="#08080A">
                 <path d={WING_HALF} />
                 <g transform="translate(200,0) scale(-1,1)">
                   <path d={WING_HALF} />

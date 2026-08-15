@@ -1,149 +1,173 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import Form from '../components/Form.jsx';
 import ContactInfo from '../components/ContactInfo.jsx';
 import SuccessModal from '../components/SuccessModal.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
+import Reveal from '../components/Reveal.jsx';
+import useSpotlight from '../hooks/useSpotlight.js';
+
+const EMAILJS = {
+  service: 'service_aq08eu7',
+  template: 'template_gdja99p',
+  publicKey: 'hXP0shevj76dhxcVD',
+};
+
+const MAX_MESSAGE = 1000;
+const empty = { name: '', email: '', subject: '', message: '' };
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formData, setFormData] = useState(empty);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
-  const [characterCount, setCharacterCount] = useState(1000);
-  const formCardRef = useRef(null);
+  const spotlight = useSpotlight();
 
+  const characterCount = MAX_MESSAGE - formData.message.length;
+
+  // Clear a field's error as soon as the user starts fixing it.
   useEffect(() => {
-    setCharacterCount(1000 - formData.message.length);
-  }, [formData.message]);
-
-  useEffect(() => {
-    const card = formCardRef.current;
-    if (!card) return;
-
-    const handleMove = (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const rotateX = (rect.height / 2 - y) / 45;
-      const rotateY = (x - rect.width / 2) / 45;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    };
-    const handleLeave = () => {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-    };
-
-    card.addEventListener('mousemove', handleMove);
-    card.addEventListener('mouseleave', handleLeave);
-    return () => {
-      card.removeEventListener('mousemove', handleMove);
-      card.removeEventListener('mouseleave', handleLeave);
-    };
-  }, []);
+    if (!Object.keys(errors).length) return;
+    setErrors((prev) => {
+      const next = { ...prev };
+      let changed = false;
+      for (const key of Object.keys(next)) {
+        if (formData[key]?.trim()) {
+          delete next[key];
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData]);
 
   const validate = () => {
-    const newErrors = {};
-    const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+    const next = {};
+    const nameRegex = /^[a-zA-Z\s.'-]{2,50}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!nameRegex.test(formData.name.trim())) newErrors.name = 'Please enter a valid name (letters only, 2-50 characters)';
-    if (!emailRegex.test(formData.email.trim())) newErrors.email = 'Please enter a valid email address';
-    if (formData.subject.trim().length < 3) newErrors.subject = 'Subject must be at least 3 characters';
-    if (formData.message.trim().length < 10) newErrors.message = 'Message must be at least 10 characters';
+    if (!nameRegex.test(formData.name.trim()))
+      next.name = 'Please enter a valid name (2–50 characters).';
+    if (!emailRegex.test(formData.email.trim()))
+      next.email = 'Please enter a valid email address.';
+    if (formData.subject.trim().length < 3)
+      next.subject = 'Subject must be at least 3 characters.';
+    if (formData.message.trim().length < 10)
+      next.message = 'Message must be at least 10 characters.';
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors(next);
+    return Object.keys(next).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError('');
     if (!validate()) return;
 
     setIsSubmitting(true);
-
     try {
       await emailjs.send(
-        'service_aq08eu7',
-        'template_gdja99p',
+        EMAILJS.service,
+        EMAILJS.template,
         {
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
         },
-        'hXP0shevj76dhxcVD'
+        EMAILJS.publicKey
       );
 
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData(empty);
       setShowSuccess(true);
-      createConfetti();
-    } catch (err) {
-      alert('Failed to send message');
+      celebrate();
+    } catch {
+      // An inline message beats a native alert(), and it keeps what they typed.
+      setSubmitError(
+        "That didn't send — please try again, or email me directly at gargakshat952@gmail.com."
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const createConfetti = () => {
-    const colors = ['#E4B65A', '#F3D48C', '#8C7CF0'];
-    for (let i = 0; i < 60; i++) {
-      setTimeout(() => {
-        const c = document.createElement('div');
-        const size = Math.random() * 10 + 5;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        c.style.cssText = `
-          position:fixed; width:${size}px; height:${size}px; background:${color};
-          top:-10px; left:${Math.random() * 100}%; opacity:1; z-index:10000;
-          border-radius:${Math.random() > 0.5 ? '50%' : '0'};
-          box-shadow:0 0 10px ${color}; pointer-events:none;
-          transform:rotate(${Math.random() * 360}deg);
-        `;
-        document.body.appendChild(c);
-
-        const duration = 2500 + Math.random() * 1500;
-        const targetX = (Math.random() - 0.5) * 300;
-        const targetY = window.innerHeight + 100;
-
-        c.animate(
-          [
-            { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
-            { transform: `translate(${targetX}px, ${targetY}px) rotate(${Math.random() * 1080}deg)`, opacity: 0 },
-          ],
-          { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }
-        );
-
-        setTimeout(() => c.remove(), duration);
-      }, i * 25);
-    }
-  };
-
   return (
-    <main className="pt-32 pb-20 section-pad">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader
-          eyebrow="Contact"
-          title="Let's build something"
-          highlight="great"
-          description="Have a role, a project, or just want to say hi? My inbox is open."
-        />
+    <main className="shell pb-20 pt-28 sm:pt-32">
+      <SectionHeader
+        eyebrow="Contact"
+        title="Let's build something"
+        highlight="together"
+        description="Hiring, collaborating, or just curious about something I've built? My inbox is genuinely open — I reply to everything."
+      />
 
-        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
-          <div ref={formCardRef} className="glass rounded-3xl p-8 transition-transform duration-300 ease-out">
-            <Form
-              formData={formData}
-              setFormData={setFormData}
-              errors={errors}
-              isSubmitting={isSubmitting}
-              handleSubmit={handleSubmit}
-              characterCount={characterCount}
-            />
+      <div className="grid items-start gap-4 md:grid-cols-2 lg:gap-6">
+        <Reveal>
+          {/* No tilt effect here on purpose — a form that moves while you aim
+              at its inputs is a worse form. */}
+          <div className="card" {...spotlight}>
+            <div className="card-body">
+              <Form
+                formData={formData}
+                setFormData={setFormData}
+                errors={errors}
+                isSubmitting={isSubmitting}
+                submitError={submitError}
+                handleSubmit={handleSubmit}
+                characterCount={characterCount}
+              />
+            </div>
           </div>
+        </Reveal>
 
+        <Reveal delay={0.1}>
           <ContactInfo />
-        </div>
+        </Reveal>
       </div>
 
       <SuccessModal isOpen={showSuccess} onClose={() => setShowSuccess(false)} />
     </main>
   );
+}
+
+/** Confetti burst on a successful send. Skipped entirely for reduced motion. */
+function celebrate() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const colors = ['#E8B961', '#F6DCA0', '#8C7CF0', '#4ADE80'];
+
+  for (let i = 0; i < 56; i++) {
+    setTimeout(() => {
+      const piece = document.createElement('div');
+      const size = Math.random() * 9 + 5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      piece.style.cssText = `
+        position:fixed; width:${size}px; height:${size}px; background:${color};
+        top:-12px; left:${Math.random() * 100}%; z-index:10000;
+        border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+        box-shadow:0 0 12px ${color}; pointer-events:none;
+      `;
+      document.body.appendChild(piece);
+
+      const duration = 2400 + Math.random() * 1600;
+      const animation = piece.animate(
+        [
+          { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+          {
+            transform: `translate(${(Math.random() - 0.5) * 320}px, ${
+              window.innerHeight + 120
+            }px) rotate(${Math.random() * 1080}deg)`,
+            opacity: 0,
+          },
+        ],
+        { duration, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)' }
+      );
+
+      // Tie cleanup to the animation instead of a second timer, so nothing is
+      // left in the DOM if the tab is backgrounded mid-flight.
+      animation.onfinish = () => piece.remove();
+    }, i * 22);
+  }
 }

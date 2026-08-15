@@ -3,16 +3,14 @@ import SkillsSection from '../components/SkillsSection.jsx';
 
 export default function SkillsPage() {
   return (
-    <main className="pt-32 pb-20 section-pad">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader
-          eyebrow="Skills"
-          title="Tools I use to"
-          highlight="ship"
-          description="A practical toolkit spanning backend systems, AI engineering, and full-stack development — built through real production work."
-        />
-        <SkillsSection />
-      </div>
+    <main className="shell pb-20 pt-28 sm:pt-32">
+      <SectionHeader
+        eyebrow="Skills"
+        title="The toolkit I"
+        highlight="ship with"
+        description="Weighted toward backend systems and applied AI — the two areas where I've done production work rather than tutorials. Everything here has been used on something real."
+      />
+      <SkillsSection />
     </main>
   );
 }

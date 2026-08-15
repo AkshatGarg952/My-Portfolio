@@ -1,68 +1,107 @@
 import { useState } from 'react';
-import { Mail, MapPin, Github, Linkedin, Twitter, Check } from 'lucide-react';
+import { Mail, MapPin, Github, Linkedin, Twitter, Check, Copy, Clock } from 'lucide-react';
+import useSpotlight from '../hooks/useSpotlight.js';
+import { site, links } from '../data/site.js';
 
-const contacts = [
-  { icon: Mail, label: 'Email', value: 'gargakshat952@gmail.com' },
-  { icon: MapPin, label: 'Location', value: 'Faridabad, Haryana, India' },
+const details = [
+  { id: 'email', icon: Mail, label: 'Email', value: site.email, copyable: true },
+  { id: 'location', icon: MapPin, label: 'Location', value: site.location },
+  { id: 'response', icon: Clock, label: 'Response time', value: 'Usually within 24 hours' },
 ];
 
 const socials = [
-  { label: 'GitHub', url: 'https://github.com/AkshatGarg952', icon: Github },
-  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/akshat-garg-79b06428a/', icon: Linkedin },
-  { label: 'X (Twitter)', url: 'https://x.com/AkshatGarg39865', icon: Twitter },
+  { label: 'GitHub', url: links.github, icon: Github },
+  { label: 'LinkedIn', url: links.linkedin, icon: Linkedin },
+  { label: 'X (Twitter)', url: links.twitter, icon: Twitter },
 ];
 
 export default function ContactInfo() {
   const [copied, setCopied] = useState(null);
+  const spotlight = useSpotlight();
 
-  const copyToClipboard = (text, i) => {
-    navigator.clipboard.writeText(text);
-    setCopied(i);
-    setTimeout(() => setCopied(null), 1500);
+  const copy = async (value, id) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(id);
+      setTimeout(() => setCopied(null), 1600);
+    } catch {
+      // Clipboard can be blocked (insecure context, denied permission) — the
+      // address is visible on screen either way, so just do nothing.
+    }
   };
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-3">
-        {contacts.map((item, i) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.label}
-              onClick={() => copyToClipboard(item.value, i)}
-              className="w-full flex items-center gap-4 p-5 glass glass-hover rounded-2xl text-left"
-            >
-              <div className="w-11 h-11 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
-                <Icon size={18} className="text-gold" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-muted uppercase tracking-wider">{item.label}</p>
-                <p className="text-ink truncate">{item.value}</p>
-              </div>
-              {copied === i && <Check size={16} className="text-emerald-400 shrink-0" />}
-            </button>
-          );
-        })}
-      </div>
+    <div className="flex flex-col gap-4">
+      <div className="card" {...spotlight}>
+        <div className="card-body space-y-2.5">
+          {details.map((item) => {
+            const Icon = item.icon;
+            const isCopied = copied === item.id;
 
-      <div>
-        <p className="text-xs text-muted uppercase tracking-wider mb-4">Find me online</p>
-        <div className="flex gap-3">
-          {socials.map((s) => {
-            const Icon = s.icon;
-            return (
-              <a
-                key={s.label}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl glass glass-hover text-muted hover:text-ink transition-colors"
+            const inner = (
+              <>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gold/20 bg-gold/[0.07]">
+                  <Icon size={16} className="text-gold" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-mono text-fluid-xs uppercase tracking-[0.15em] text-muted">
+                    {item.label}
+                  </span>
+                  <span className="block truncate text-fluid-sm text-ink">{item.value}</span>
+                </span>
+                {item.copyable &&
+                  (isCopied ? (
+                    <Check size={15} className="shrink-0 text-live" />
+                  ) : (
+                    <Copy size={15} className="shrink-0 text-faint" />
+                  ))}
+              </>
+            );
+
+            return item.copyable ? (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => copy(item.value, item.id)}
+                aria-label={`Copy ${item.label.toLowerCase()}`}
+                className="flex w-full items-center gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.015] p-3.5 text-left transition-colors hover:border-white/[0.14] hover:bg-white/[0.04]"
               >
-                <Icon size={18} />
-              </a>
+                {inner}
+              </button>
+            ) : (
+              <div
+                key={item.id}
+                className="flex w-full items-center gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.015] p-3.5"
+              >
+                {inner}
+              </div>
             );
           })}
+        </div>
+      </div>
+
+      <div className="card" {...spotlight}>
+        <div className="card-body">
+          <p className="eyebrow mb-4">Find me online</p>
+          <div className="grid grid-cols-3 gap-2.5">
+            {socials.map((s) => {
+              const Icon = s.icon;
+              return (
+                <a
+                  key={s.label}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  title={s.label}
+                  className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.015] py-5 text-muted transition-all duration-300 hover:border-gold/30 hover:bg-white/[0.04] hover:text-gold"
+                >
+                  <Icon size={19} />
+                  <span className="font-mono text-fluid-xs">{s.label.split(' ')[0]}</span>
+                </a>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

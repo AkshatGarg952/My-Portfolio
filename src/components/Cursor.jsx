@@ -1,58 +1,76 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
+/**
+ * Two-part cursor: a hard dot that tracks exactly, and a soft ring that lags
+ * behind on a spring. Only mounts on fine pointers with motion enabled — on a
+ * phone, or with reduced motion on, the native cursor is left alone.
+ */
 export default function Cursor() {
   const [enabled, setEnabled] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [pressed, setPressed] = useState(false);
+
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const springX = useSpring(x, { damping: 25, stiffness: 300, mass: 0.5 });
-  const springY = useSpring(y, { damping: 25, stiffness: 300, mass: 0.5 });
+  const ringX = useSpring(x, { damping: 26, stiffness: 320, mass: 0.45 });
+  const ringY = useSpring(y, { damping: 26, stiffness: 320, mass: 0.45 });
 
   useEffect(() => {
-    const isFine = window.matchMedia('(pointer: fine)').matches;
+    const fine = window.matchMedia('(pointer: fine)').matches;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!isFine || reduced) return;
+    if (!fine || reduced) return;
 
     setEnabled(true);
     document.body.classList.add('custom-cursor-active');
 
-    const handleMove = (e) => {
+    const onMove = (e) => {
       x.set(e.clientX);
       y.set(e.clientY);
     };
-    const handleOver = (e) => {
-      setHovering(!!e.target.closest('a, button, [data-cursor-hover]'));
-    };
+    const onOver = (e) =>
+      setHovering(Boolean(e.target.closest?.('a, button, [data-cursor-hover], input, textarea')));
+    const onDown = () => setPressed(true);
+    const onUp = () => setPressed(false);
 
-    window.addEventListener('mousemove', handleMove);
-    window.addEventListener('mouseover', handleOver);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mouseover', onOver, { passive: true });
+    window.addEventListener('mousedown', onDown);
+    window.addEventListener('mouseup', onUp);
 
     return () => {
-      window.removeEventListener('mousemove', handleMove);
-      window.removeEventListener('mouseover', handleOver);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseover', onOver);
+      window.removeEventListener('mousedown', onDown);
+      window.removeEventListener('mouseup', onUp);
       document.body.classList.remove('custom-cursor-active');
     };
   }, [x, y]);
 
   if (!enabled) return null;
 
+  const ringSize = hovering ? 48 : 28;
+
   return (
     <>
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[9999] w-1.5 h-1.5 rounded-full bg-gold"
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-[9999] h-1.5 w-1.5 rounded-full bg-gold"
         style={{ x, y, translateX: '-50%', translateY: '-50%' }}
+        animate={{ opacity: hovering ? 0 : 1 }}
+        transition={{ duration: 0.2 }}
       />
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[9998] rounded-full border"
-        style={{ x: springX, y: springY, translateX: '-50%', translateY: '-50%' }}
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-[9998] rounded-full border"
+        style={{ x: ringX, y: ringY, translateX: '-50%', translateY: '-50%' }}
         animate={{
-          width: hovering ? 52 : 30,
-          height: hovering ? 52 : 30,
-          borderColor: hovering ? 'rgba(228,182,90,0.8)' : 'rgba(228,182,90,0.35)',
-          backgroundColor: hovering ? 'rgba(228,182,90,0.08)' : 'rgba(228,182,90,0)',
+          width: pressed ? ringSize * 0.82 : ringSize,
+          height: pressed ? ringSize * 0.82 : ringSize,
+          borderColor: hovering ? 'rgba(232,185,97,0.85)' : 'rgba(232,185,97,0.32)',
+          backgroundColor: hovering ? 'rgba(232,185,97,0.10)' : 'rgba(232,185,97,0)',
         }}
-        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        transition={{ type: 'spring', damping: 22, stiffness: 320 }}
       />
     </>
   );

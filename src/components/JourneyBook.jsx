@@ -1,59 +1,48 @@
-import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import useSpotlight from '../hooks/useSpotlight.js';
 
-const introductionParagraphs = [
-  "I'm Akshat Garg, a Backend & AI Engineer who enjoys building software that solves real problems, not just projects that look good on a resume",
-  "Over the past year, I've worked across startups where I've shipped production APIs, AI powered workflows, scalable backend services, and distributed systems used by real users. I enjoy taking complex ideas, breaking them down, and turning them into reliable, maintainable products",
-  "My interests lie at the intersection of backend engineering, distributed systems, and applied AI. Whether it's optimizing systems handling thousands of requests, designing microservices, or integrating LLMs into practical applications, I'm always drawn toward building software that's fast, scalable, and genuinely useful",
-  "Outside of work, you'll usually find me solving DSA problems, experimenting with new technologies, or building side projects simply because an idea sounded interesting enough to explore",
+/**
+ * My story.
+ *
+ * This used to type itself out character by character, which meant the page sat
+ * empty for the better part of twenty seconds and screen readers / crawlers got
+ * nothing at all. The text is now real DOM content that fades in on a short
+ * stagger — same sense of the words arriving, none of the waiting.
+ */
+const paragraphs = [
+  "I'm Akshat Garg, a backend and AI engineer who likes building software that solves a real problem — not projects that only look good on a résumé.",
+  "Over the past year I've worked across three startups shipping production APIs, AI-powered workflows and scalable backend services used by real people. The part I enjoy most is taking a fuzzy idea, breaking it into pieces, and turning it into something reliable enough that nobody has to think about it again.",
+  "My interests sit at the intersection of backend engineering, distributed systems and applied AI: optimising services handling thousands of requests, designing microservices that stay maintainable, and wiring LLMs into products in ways that actually hold up outside a demo.",
+  "Outside of work you'll usually find me on DSA problems, poking at a new piece of infrastructure, or building a side project purely because the idea wouldn't leave me alone.",
 ];
 
 export default function JourneyBook() {
-  const paragraphsRef = useRef([]);
-  const [showHeading, setShowHeading] = useState(false);
-
-  useEffect(() => {
-    const headingTimer = setTimeout(() => setShowHeading(true), 300);
-
-    const typingTimer = setTimeout(() => {
-      paragraphsRef.current.forEach((p, i) => {
-        setTimeout(() => typeText(p, introductionParagraphs[i], 16), i * 2200);
-      });
-    }, 700);
-
-    return () => {
-      clearTimeout(headingTimer);
-      clearTimeout(typingTimer);
-    };
-  }, []);
-
-  const typeText = (el, text, speed) => {
-    if (!el) return;
-    let i = 0;
-    el.textContent = '';
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        el.textContent += text.charAt(i);
-        i++;
-      } else clearInterval(interval);
-    }, speed);
-  };
+  const spotlight = useSpotlight();
 
   return (
-    <div className="glass glass-hover rounded-2xl p-6 sm:p-8">
-      <div
-        className={`transition-all duration-700 ${
-          showHeading ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-        }`}
-      >
-        <h2 className="font-display text-2xl sm:text-3xl text-ink mb-6">My Story</h2>
+    <div className="card h-full" {...spotlight}>
+      <div className="card-body">
+        <div className="mb-6 flex items-center gap-3">
+          <h2 className="font-display text-fluid-xl text-ink">My story</h2>
+          <span className="h-px flex-1 bg-white/[0.09]" aria-hidden="true" />
+        </div>
 
-        {introductionParagraphs.map((_, i) => (
-          <p
-            key={i}
-            ref={(el) => (paragraphsRef.current[i] = el)}
-            className="text-muted leading-relaxed mb-4 min-h-[3em]"
-          ></p>
-        ))}
+        <div className="space-y-5">
+          {paragraphs.map((text, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className={`leading-relaxed text-ink-2 ${
+                i === 0 ? 'text-fluid-lg text-ink' : 'text-fluid-base'
+              }`}
+            >
+              {text}
+            </motion.p>
+          ))}
+        </div>
       </div>
     </div>
   );

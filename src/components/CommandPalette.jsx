@@ -3,36 +3,66 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, Home, User, Code2, Briefcase, FolderGit2, Send,
-  Github, Linkedin, FileText, Copy, CornerDownLeft, Flashlight,
+  Github, Linkedin, FileText, Copy, CornerDownLeft, Sparkles, Check,
 } from 'lucide-react';
-
-const RESUME_URL = 'https://drive.google.com/file/d/1T7jIhmsjw4mrH9eZVZWHd8cAw10ddLg0/view?usp=sharing';
+import { site, links } from '../data/site.js';
 
 export default function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [copied, setCopied] = useState(false);
   const inputRef = useRef(null);
+  const listRef = useRef(null);
   const navigate = useNavigate();
 
   const actions = useMemo(
     () => [
-      { id: 'home', label: 'Home', icon: Home, run: () => navigate('/') },
-      { id: 'about', label: 'About', icon: User, run: () => navigate('/about') },
-      { id: 'skills', label: 'Skills', icon: Code2, run: () => navigate('/skills') },
-      { id: 'experience', label: 'Experience', icon: Briefcase, run: () => navigate('/experience') },
-      { id: 'projects', label: 'Projects', icon: FolderGit2, run: () => navigate('/projects') },
-      { id: 'contact', label: 'Contact', icon: Send, run: () => navigate('/contact') },
-      { id: 'github', label: 'Open GitHub', icon: Github, run: () => window.open('https://github.com/AkshatGarg952', '_blank') },
-      { id: 'linkedin', label: 'Open LinkedIn', icon: Linkedin, run: () => window.open('https://www.linkedin.com/in/akshat-garg-79b06428a/', '_blank') },
-      { id: 'resume', label: 'View Resume', icon: FileText, run: () => window.open(RESUME_URL, '_blank') },
-      { id: 'email', label: 'Copy email address', icon: Copy, run: () => navigator.clipboard.writeText('gargakshat952@gmail.com') },
-      { id: 'bat-signal', label: 'Signal the Bat', icon: Flashlight, run: () => window.dispatchEvent(new Event('trigger-bat-signal')) },
+      { id: 'home', label: 'Home', group: 'Navigate', icon: Home, run: () => navigate('/') },
+      { id: 'about', label: 'About', group: 'Navigate', icon: User, run: () => navigate('/about') },
+      { id: 'skills', label: 'Skills', group: 'Navigate', icon: Code2, run: () => navigate('/skills') },
+      { id: 'experience', label: 'Experience', group: 'Navigate', icon: Briefcase, run: () => navigate('/experience') },
+      { id: 'projects', label: 'Projects', group: 'Navigate', icon: FolderGit2, run: () => navigate('/projects') },
+      { id: 'contact', label: 'Contact', group: 'Navigate', icon: Send, run: () => navigate('/contact') },
+
+      { id: 'resume', label: 'View résumé', group: 'Links', icon: FileText, run: () => window.open(links.resume, '_blank', 'noopener') },
+      { id: 'github', label: 'Open GitHub', group: 'Links', icon: Github, run: () => window.open(links.github, '_blank', 'noopener') },
+      { id: 'linkedin', label: 'Open LinkedIn', group: 'Links', icon: Linkedin, run: () => window.open(links.linkedin, '_blank', 'noopener') },
+
+      {
+        id: 'email',
+        label: 'Copy email address',
+        group: 'Actions',
+        icon: Copy,
+        keepOpen: true,
+        run: async () => {
+          try {
+            await navigator.clipboard.writeText(site.email);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1600);
+          } catch {
+            /* clipboard unavailable — nothing useful to do */
+          }
+        },
+      },
+      {
+        id: 'bat-signal',
+        label: 'Signal the Bat',
+        group: 'Actions',
+        icon: Sparkles,
+        run: () => window.dispatchEvent(new Event('trigger-bat-signal')),
+      },
     ],
     [navigate]
   );
 
-  const filtered = actions.filter((a) => a.label.toLowerCase().includes(query.toLowerCase()));
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return actions;
+    return actions.filter(
+      (a) => a.label.toLowerCase().includes(q) || a.group.toLowerCase().includes(q)
+    );
+  }, [actions, query]);
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -53,35 +83,42 @@ export default function CommandPalette() {
     };
   }, []);
 
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query, open]);
+  useEffect(() => setActiveIndex(0), [query, open]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) {
-      setQuery('');
-      setTimeout(() => inputRef.current?.focus(), 50);
-    }
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    setQuery('');
+    const id = setTimeout(() => inputRef.current?.focus(), 60);
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = prev;
+      clearTimeout(id);
     };
   }, [open]);
 
-  const runAndClose = (action) => {
+  // Keep the highlighted row in view when arrowing past the fold.
+  useEffect(() => {
+    listRef.current
+      ?.querySelector('[data-active="true"]')
+      ?.scrollIntoView({ block: 'nearest' });
+  }, [activeIndex]);
+
+  const runAction = (action) => {
     action.run();
-    setOpen(false);
+    if (!action.keepOpen) setOpen(false);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, filtered.length - 1));
+      setActiveIndex((i) => (i + 1) % Math.max(filtered.length, 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, 0));
+      setActiveIndex((i) => (i - 1 + filtered.length) % Math.max(filtered.length, 1));
     } else if (e.key === 'Enter' && filtered[activeIndex]) {
-      runAndClose(filtered[activeIndex]);
+      e.preventDefault();
+      runAction(filtered[activeIndex]);
     }
   };
 
@@ -89,56 +126,84 @@ export default function CommandPalette() {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[200] flex items-start justify-center px-4 pt-[12vh] bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-[200] flex items-start justify-center bg-black/75 px-4 pt-[10vh] backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
+          transition={{ duration: 0.16 }}
           onClick={() => setOpen(false)}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: -8 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Command palette"
+            initial={{ opacity: 0, scale: 0.97, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -8 }}
-            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, scale: 0.97, y: -10 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-lg glass rounded-2xl overflow-hidden shadow-2xl shadow-black/60"
+            className="glass w-full max-w-lg overflow-hidden rounded-2xl shadow-lift"
           >
-            <div className="flex items-center gap-3 px-5 py-4 border-b border-white/[0.08]">
-              <Search size={18} className="text-muted shrink-0" />
+            <div className="flex items-center gap-3 border-b border-white/[0.08] px-5 py-4">
+              <Search size={17} className="shrink-0 text-muted" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Jump to a page or action…"
-                className="w-full bg-transparent outline-none text-ink placeholder:text-muted text-sm"
+                aria-label="Search commands"
+                className="w-full bg-transparent text-fluid-sm text-ink outline-none placeholder:text-faint"
               />
-              <kbd className="hidden sm:block text-[10px] text-muted border border-white/10 rounded px-1.5 py-0.5">esc</kbd>
+              <kbd className="hidden shrink-0 rounded border border-white/10 px-1.5 py-0.5 font-mono text-fluid-xs text-muted sm:block">
+                esc
+              </kbd>
             </div>
 
-            <div className="max-h-80 overflow-y-auto py-2">
-              {filtered.length === 0 && (
-                <p className="px-5 py-6 text-sm text-muted text-center">No matches.</p>
+            <div ref={listRef} className="max-h-[min(22rem,50svh)] overflow-y-auto py-2">
+              {filtered.length === 0 ? (
+                <p className="px-5 py-8 text-center text-fluid-sm text-muted">
+                  No matches for &ldquo;{query}&rdquo;.
+                </p>
+              ) : (
+                filtered.map((action, i) => {
+                  const Icon = action.icon;
+                  const active = i === activeIndex;
+                  const newGroup = i === 0 || filtered[i - 1].group !== action.group;
+
+                  return (
+                    <div key={action.id}>
+                      {newGroup && (
+                        <p className="px-5 pb-1.5 pt-3 font-mono text-fluid-xs uppercase tracking-[0.18em] text-faint">
+                          {action.group}
+                        </p>
+                      )}
+                      <button
+                        data-active={active}
+                        onMouseEnter={() => setActiveIndex(i)}
+                        onClick={() => runAction(action)}
+                        className={`flex w-full items-center gap-3 px-5 py-2.5 text-left text-fluid-sm transition-colors ${
+                          active ? 'bg-white/[0.06] text-ink' : 'text-muted'
+                        }`}
+                      >
+                        <Icon
+                          size={15}
+                          className={`shrink-0 ${active ? 'text-gold' : 'text-faint'}`}
+                        />
+                        <span className="flex-1 truncate">{action.label}</span>
+                        {action.id === 'email' && copied && (
+                          <span className="flex shrink-0 items-center gap-1 font-mono text-fluid-xs text-live">
+                            <Check size={12} /> copied
+                          </span>
+                        )}
+                        {active && action.id !== 'email' && (
+                          <CornerDownLeft size={13} className="shrink-0 text-faint" />
+                        )}
+                      </button>
+                    </div>
+                  );
+                })
               )}
-              {filtered.map((action, i) => {
-                const Icon = action.icon;
-                const active = i === activeIndex;
-                return (
-                  <button
-                    key={action.id}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    onClick={() => runAndClose(action)}
-                    className={`w-full flex items-center gap-3 px-5 py-3 text-sm text-left transition-colors ${
-                      active ? 'bg-white/[0.06] text-ink' : 'text-muted'
-                    }`}
-                  >
-                    <Icon size={16} className={active ? 'text-gold' : 'text-muted'} />
-                    <span className="flex-1">{action.label}</span>
-                    {active && <CornerDownLeft size={14} className="text-muted" />}
-                  </button>
-                );
-              })}
             </div>
           </motion.div>
         </motion.div>

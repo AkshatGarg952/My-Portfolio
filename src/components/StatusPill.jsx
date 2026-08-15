@@ -1,31 +1,38 @@
 import { useEffect, useState } from 'react';
+import { site } from '../data/site.js';
 
 export default function StatusPill() {
   const [time, setTime] = useState('');
 
   useEffect(() => {
-    const update = () => {
+    const update = () =>
       setTime(
         new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: '2-digit',
           hour12: true,
-          timeZone: 'Asia/Kolkata',
+          timeZone: site.timezone,
         }).format(new Date())
       );
-    };
+
     update();
-    const id = setInterval(update, 30000);
+    const id = setInterval(update, 30_000);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <div className="inline-flex items-center gap-2.5 glass rounded-full pl-3 pr-4 py-1.5 text-xs text-muted">
-      <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+    <div className="glass inline-flex items-center gap-2.5 rounded-full py-1.5 pl-3 pr-4 font-mono text-fluid-xs text-muted">
+      <span className="relative flex h-1.5 w-1.5 shrink-0">
+        <span className="absolute inline-flex h-full w-full rounded-full bg-live animate-pulse-ring" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-live" />
       </span>
-      Open to opportunities · {time} IST
+      <span className="text-ink-2">{site.availability}</span>
+      {time && (
+        <>
+          <span className="h-3 w-px bg-white/12" aria-hidden="true" />
+          <span className="whitespace-nowrap">{time} IST</span>
+        </>
+      )}
     </div>
   );
 }

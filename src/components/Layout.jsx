@@ -10,28 +10,52 @@ export default function Layout({ children }) {
   const glowRef = useRef(null);
 
   useEffect(() => {
+    // Pointer-following ambient light. Coarse pointers never fire mousemove, so
+    // this stays inert on touch devices rather than burning battery.
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    let frame = 0;
     const handleMove = (e) => {
-      glowRef.current?.style.setProperty('--x', `${e.clientX}px`);
-      glowRef.current?.style.setProperty('--y', `${e.clientY}px`);
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const el = glowRef.current;
+        if (!el) return;
+        el.style.setProperty('--x', `${e.clientX}px`);
+        el.style.setProperty('--y', `${e.clientY}px`);
+      });
     };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
+
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-bg text-ink font-sans">
-      <div className="fixed inset-0 -z-30 bg-bg" />
+    <div className="relative flex min-h-screen flex-col bg-bg font-sans text-ink">
+      {/* Ambient stack — all fixed, all behind content, none interactive */}
+      <div className="pointer-events-none fixed inset-0 -z-30 bg-bg" />
+      <div className="grid-overlay pointer-events-none fixed inset-0 -z-20" />
       <div
         ref={glowRef}
-        className="fixed inset-0 -z-20 pointer-events-none"
+        className="pointer-events-none fixed inset-0 -z-20 hidden md:block"
         style={{
           background:
-            'radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), rgba(228,182,90,0.06), transparent 70%)',
+            'radial-gradient(620px circle at var(--x, 50%) var(--y, 20%), rgba(232,185,97,0.055), transparent 70%)',
         }}
       />
-      <div className="fixed inset-0 -z-20 pointer-events-none opacity-[0.035] noise-overlay" />
-      <div className="fixed -z-20 top-[-15%] left-[-15%] w-[50vw] h-[50vw] bg-gold/10 rounded-full blur-[120px]" />
-      <div className="fixed -z-20 bottom-[-15%] right-[-15%] w-[45vw] h-[45vw] bg-violet/10 rounded-full blur-[120px]" />
+      <div className="noise-overlay pointer-events-none fixed inset-0 -z-20 opacity-[0.03]" />
+      <div className="pointer-events-none fixed left-[-20%] top-[-18%] -z-20 h-[55vw] w-[55vw] rounded-full bg-gold/[0.07] blur-[130px]" />
+      <div className="pointer-events-none fixed bottom-[-20%] right-[-18%] -z-20 h-[50vw] w-[50vw] rounded-full bg-violet/[0.07] blur-[130px]" />
+
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[500] focus:rounded-full focus:bg-gold focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-[#17130a]"
+      >
+        Skip to content
+      </a>
 
       <Cursor />
       <ScrollProgress />
@@ -39,7 +63,9 @@ export default function Layout({ children }) {
       <BatSignal />
       <Navbar />
 
-      <div className="relative z-10">{children}</div>
+      <div id="main" className="relative z-10 flex-1">
+        {children}
+      </div>
 
       <Footer />
     </div>
