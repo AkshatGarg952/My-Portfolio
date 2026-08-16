@@ -4,8 +4,8 @@ export const projects = [
     description: "A real-time 1v1 DSA/CP battle platform with timed matches, AI-generated test cases, and sandboxed code execution. Features gamified leaderboards, streak-based rankings, and multi-language support (Java, Python, C++).",
     thumbnail: "https://res.cloudinary.com/dnd6asdiw/image/upload/v1760255700/Screenshot_2025-10-12_130014_qg3et8.png",
     tech: ["React", "Express", "Gemini AI", "FastAPI", "Langgraph", "Langchain"],
-    github: "https://github.com/AkshatGarg952/KodeKshetra-Client",
-    demo: "https://kode-kshetra-client.vercel.app/",
+    github: "https://github.com/AkshatGarg952/KodeKshetra-Server",
+    demo: "https://kode-kshetra-server.vercel.app/",
     achievements: [
       "Built a real-time competitive programming platform where users compete in live 1v1 coding battles with matchmaking, leaderboards, and gamification",
       "Designed a microservices architecture separating the frontend, backend, code execution, and hidden test case evaluation for scalability and maintainability",
@@ -18,9 +18,9 @@ export const projects = [
   {
     title: "Chess With Benefits",
     description: "A real-time chess app with JWT authentication, video chat, and AI-driven commentary using OpenAI. Includes Stockfish-powered move analysis and interactive insights for an engaging playing experience.",
-    thumbnail: "https://res.cloudinary.com/dnd6asdiw/image/upload/v1761992481/Screenshot_2025-11-01_155102_t2r2xm.png",
+    thumbnail: "https://res.cloudinary.com/dnd6asdiw/image/upload/v1786901698/Screenshot_2026-08-16_230406_x2oxca.png",
     tech: ["React", "MongoDB", "Express", "WebRTC", "OpenAI"],
-    github: "https://github.com/AkshatGarg952/ChesswithBenefits-Client",
+    github: "https://github.com/AkshatGarg952/ChesswithBenefits-Server",
     demo: "https://chesswith-benefits-client.vercel.app/",
     achievements: [
       "Built a real-time multiplayer chess platform featuring secure authentication, private game rooms, live chat, and low-latency gameplay",
@@ -36,7 +36,7 @@ export const projects = [
     description: "A real-time sports and gaming matchmaking platform that helps players discover teammates, join teams, or find opponents. Features live matchmaking, instant chat powered by Socket.IO, and a voice-enabled Gemini AI assistant for an interactive user experience.",
     thumbnail: "https://res.cloudinary.com/dnd6asdiw/image/upload/v1761992563/Screenshot_2025-11-01_155224_u5cuaa.png",
     tech: ["React", "Express", "MongoDB", "Gemini API"],
-    github: "https://github.com/AkshatGarg952/PlayPlexusFrontend",
+    github: "https://github.com/AkshatGarg952/PlayPlexusBackend",
     demo: "https://play-plexus-frontend.vercel.app/",
     achievements: [
       "Built a real-time sports and gaming matchmaking platform that helps players discover teammates or find teams to compete against",
