@@ -27,11 +27,13 @@ export default function StatusPill() {
         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-live" />
       </span>
       <span className="text-ink-2">{site.availability}</span>
+      {/* The label got longer; below sm the clock would push the pill onto a
+          second line, so it drops out here — the hero terminal still shows it. */}
       {time && (
-        <>
+        <span className="hidden items-center gap-2.5 sm:inline-flex">
           <span className="h-3 w-px bg-white/12" aria-hidden="true" />
           <span className="whitespace-nowrap">{time} IST</span>
-        </>
+        </span>
       )}
     </div>
   );

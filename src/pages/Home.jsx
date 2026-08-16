@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, ArrowRight, ArrowUpRight, FileText, ArrowDown } from 'lucide-react';
-import SystemDiagram from '../components/SystemDiagram.jsx';
+import HeroTerminal from '../components/HeroTerminal.jsx';
 import StatusPill from '../components/StatusPill.jsx';
 import TechMarquee from '../components/TechMarquee.jsx';
 import MagneticButton from '../components/MagneticButton.jsx';
@@ -95,9 +95,9 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.85, delay: 0.15, ease }}
-          className="h-[380px] sm:h-[460px] lg:h-[540px]"
+          className="h-[500px] sm:h-[520px] lg:h-[540px]"
         >
-          <SystemDiagram />
+          <HeroTerminal />
         </motion.div>
       </section>
 
@@ -274,8 +274,8 @@ export default function Home() {
             <span className="gradient-text italic">worth maintaining</span>.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-fluid-base leading-relaxed text-muted">
-            {site.availability}. If you&rsquo;re hiring for backend, platform or applied-AI
-            work, I&rsquo;d like to hear about it.
+            {site.availability}. If you&rsquo;re hiring for backend, platform, AI engineering
+            or Gen AI work, I&rsquo;d like to hear about it.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <MagneticButton>

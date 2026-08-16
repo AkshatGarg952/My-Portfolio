@@ -10,7 +10,7 @@ export const site = {
   timezone: 'Asia/Kolkata',
   email: 'gargakshat952@gmail.com',
   available: true,
-  availability: 'Open to SDE / backend roles',
+  availability: 'Open to SDE, backend & Gen AI roles',
 };
 
 export const links = {
