@@ -1,5 +1,19 @@
 export const experiences = [
   {
+    company: 'Zecruit AI',
+    role: 'Software Developer Intern',
+    duration: 'July 2026 - Aug 2026',
+    achievements: [
+      'Built and shipped full-stack features using React, TypeScript, Python, and Supabase/PostgreSQL for an AI-powered recruitment platform',
+'Implemented configurable interview downtime controls, gating calls, reminders, and candidate sessions behind server-side guards across all affected endpoints',
+'Developed per-batch outreach channel selection (Email/Phone/Import Only) with a schema migration, extending it across CSV import, resume import, and AI screening flows',
+'Standardized post-call AI extraction by normalizing keys and auto-coercing values into correct types, eliminating malformed data from the recruiter-facing UI',
+'Rebuilt the candidate screening report generator, restoring document structure, alignment, and styling, and shipped one-click PDF export',
+'Diagnosed and fixed a scheduled-call visibility bug by reconciling run state across two tables, restoring accurate pending-call status on candidate cards',
+    ],
+    tech: ['Express', 'Supabase', 'Typescript', 'Celery' 'OpenAI', 'React'],
+  },
+  {
     company: 'Zyvka',
     role: 'Backend Developer Intern',
     duration: 'Feb 2026 - Jun 2026',
