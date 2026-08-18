@@ -11,7 +11,7 @@ export const experiences = [
 'Rebuilt the candidate screening report generator, restoring document structure, alignment, and styling, and shipped one-click PDF export',
 'Diagnosed and fixed a scheduled-call visibility bug by reconciling run state across two tables, restoring accurate pending-call status on candidate cards',
     ],
-    tech: ['Express', 'Supabase', 'Typescript', 'Celery' 'OpenAI', 'React'],
+    tech: ['Express', 'Supabase', 'Typescript', 'Celery', 'OpenAI', 'Python', 'FastAPI', 'React'],
   },
   {
     company: 'Zyvka',
